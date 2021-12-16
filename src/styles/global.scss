@@ -1,0 +1,17 @@
+$Primary-color: #1C3144;
+$Secundary-color: #B3061B;
+$background-color: #FFFFFC;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+  background-color: $background-color;
+}
