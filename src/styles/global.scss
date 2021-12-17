@@ -1,18 +1,34 @@
 :root{
-  --primary: #1C3144;
-  --secundary: #B3061B;
+  --primary: #ffffff;
+  --secundary: #e63946;
+  --logo-blue: #1C3144;
   --white: #FBFBFF;
+  --light-gray: #e5e5e5;
+  --green: #06d6a0;
 }
 
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    width: 0.75rem;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--logo-blue);
+  }
 }
 
 body {
   min-height: 100vh;
-  scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   background-color: var(--primary);
