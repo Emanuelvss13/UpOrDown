@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap');
+
 .Container{
   display: flex;
   align-items: center;
@@ -5,24 +7,41 @@
   width: 100%;
   height: 15vh;
   background-color: var(--secundary);
-  border-bottom: var(--white) 2px solid;
+  border-bottom: var(--logo-blue) 3px solid;
   padding: 0 2rem 0 2rem;
 
 
-  img{
-    width: 5rem;
+  .logo{
+    color: var(--white);
+    font-size: 4rem;
+    font-family: 'Corinthia', cursive;
   }
 
-  .LoginButton{
-    background-color: var(--primary);
+  .ActionButton{
+    background-color: var(--logo-blue);
     border: 0;
-    color: var(--white);
+    color: var(--primary);
     padding: 1rem 2rem;
-    border-radius: 0.5rem;
-    transition: 0.3s;
+    transition: 0.2s;
 
     &:hover{
-      box-shadow: var(--white) 0px 0px 0px 2px, var(--white) 0px 4px 6px -1px, var(--white) 0px 1px 0px inset;
+      box-shadow: var(--primary) 0px 3px 0px;
+    }
+  }
+
+  .LoggedUser{
+    width: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    img{
+      width: 4rem;
+      border-radius: 2rem;
+    }
+
+    p{
+      color: var(--primary)
     }
   }
 }

@@ -1,5 +1,4 @@
 import style from "./style.module.scss"
-import Logo from '../../Assets/logo.png'
 import { AuthContext } from "../../Context/Auth"
 import { useContext } from "react"
 
@@ -9,16 +8,16 @@ export default function Home() {
 
   return (
     <header className={style.Container}>
-      <img src={Logo}/>
+      <p className={style.logo} >UpOrDown</p>
 
       {user ? 
-        <div>
-          <img src={user.avatar}/>
-          {user.name}
-          <button onClick={singOut} >Logout</button>
+        <div className={style.LoggedUser} >
+          <img src={user.avatar} alt="foto do usuário"/>
+          <p>{user.name}</p>
+          <button className={style.ActionButton} onClick={singOut} >Logout</button>
         </div>
         : 
-        <button className={style.LoginButton} onClick={singInWithGoogle} >Login</button>
+        <button className={style.ActionButton} onClick={singInWithGoogle} >Login</button>
       }
 
       
