@@ -1,0 +1,134 @@
+.Container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  height: auto;
+  position: relative;
+
+  .CreatePostContainer{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+
+    textarea{
+      resize: none;
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      padding: 1rem;
+      outline: 0;
+      border-radius: 0.5rem;
+
+      &::-webkit-scrollbar {
+        width: 0.5rem;
+      }
+    }
+
+    button{
+      margin: 1rem auto;
+      width: 20%;
+      padding: 1rem;
+      border: 0;
+      background-color: var(--secundary);
+      color: white;
+      transition: 0.2s;
+
+      &:hover{
+        box-shadow: var(--logo-blue) 0px 2px 0px;
+      }
+    }
+  }
+
+  .PostContentContainer{
+    width: 60%;
+    height: auto;
+    padding: 1rem;
+
+    .PostContainer{
+      border-radius: 0.5rem;
+      width: 100%;
+      border: 1px solid var(--light-gray);
+      padding: 1rem;
+
+      & + div {
+        margin-top: 1rem;
+      }
+
+      .header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+        border-bottom: 1px solid var(--light-gray);
+        padding-bottom: 0.5rem;
+
+        div{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+
+          img{
+            width: 3rem;
+            border-radius: 2.5rem;
+          }
+        }
+
+        .date{
+          color: var(--light-gray);
+        }
+
+        .on{
+          color: var(--green);
+        }
+
+        .off{
+          color: var(--secundary);
+        }
+
+      }
+
+      .content{
+        padding-top: 0.5rem;
+        display: flex;
+        // align-items: center;
+        height: auto;
+
+        .postBody{
+          width: 90%;
+        }
+
+        .actions{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 1rem;
+          width: 10%;
+
+          div{
+            display: flex;
+            align-items: center;
+          }
+
+          svg{
+            width: 5rem;
+            height: 2rem;
+            transition: 1s;
+            cursor: pointer;
+
+            &.up:hover path {
+              fill: var(--green);
+            }
+
+            &.down:hover path {
+              fill: var(--secundary)
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
