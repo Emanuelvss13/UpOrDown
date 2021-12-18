@@ -7,6 +7,7 @@ import { AuthContext } from "./Auth"
 interface FirestoreConxtextProps {
   allPosts: Post[];
   findPostById: (id: string) => Promise<Post>;
+  createComment: (commentBody: string, postId: string) => Promise<void>;
   createPost: (body: string) => Promise<void>;
   likePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
   dislikePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
@@ -74,6 +75,38 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     
   }
 
+  async function createComment(commentBody: string, postId: string){
+
+    if(!user){
+      toast.error("Se registre para criar um tópico")
+      return 
+    }
+
+    const comentario = {
+      author:{
+        id: user.id,
+        name: user.name,
+        photo: user.avatar
+      },
+      content: commentBody
+    }
+
+    try {
+
+      toast.loading("Postando...")
+
+      await updateDoc(doc(db, "Posts", postId), {
+        comentarios: arrayUnion(comentario)
+      }).then(() => toast.dismiss())
+
+      toast.success("Comentário postado!")
+      
+    } catch (e: any) {
+      toast.error(e.message)
+    }
+
+  }
+
   async function createPost(postBody: string){
 
     if(!user){
@@ -139,7 +172,7 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
   }
 
   return (
-    <FirestoreContext.Provider value={{ allPosts, createPost, findPostById, likePost, dislikePost }} >
+    <FirestoreContext.Provider value={{ allPosts, createPost, findPostById, createComment, likePost, dislikePost }} >
       {children}
     </FirestoreContext.Provider>
   )
