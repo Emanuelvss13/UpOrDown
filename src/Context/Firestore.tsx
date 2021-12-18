@@ -1,14 +1,15 @@
-import { addDoc, arrayRemove, arrayUnion, collection, doc, getDocs, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore"
-import { createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore"
+import { BaseSyntheticEvent, createContext, ReactNode, useContext, useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { db } from "../Config/firebase"
 import { AuthContext } from "./Auth"
 
 interface FirestoreConxtextProps {
   allPosts: Post[];
+  findPostById: (id: string) => Promise<Post>;
   createPost: (body: string) => Promise<void>;
-  likePost: (userId: string | undefined, postId: string) => Promise<void>;
-  dislikePost: (userId: string | undefined, postId: string) => Promise<void>;
+  likePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
+  dislikePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
 }
 
 interface Author {
@@ -61,14 +62,15 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
 
   }, [])
 
-  async function getPosts(){
+  async function findPostById(id: string){
 
-    
+    const postRef = doc(db, "Posts", id)
 
-    
+    const postRaw = await getDoc(postRef)
 
-    
+    const post: Post = { id: postRaw.id, data: postRaw.data() } as Post
 
+    return post
     
   }
 
@@ -97,7 +99,6 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
         comentarios: []
       }).then(() => {
         toast.dismiss()
-        getPosts()
       })
 
       toast.success("Post criado com sucesso!")
@@ -107,7 +108,9 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     }
   }
 
-  async function likePost(userId: string | undefined, postId: string){
+  async function likePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent){
+
+    e.stopPropagation()
 
     if(!userId){
       toast.error("Se registre para dar up nesse post")
@@ -117,10 +120,12 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     await updateDoc(doc(db, "Posts", postId), {
       likes: arrayUnion(userId),
       dislikes: arrayRemove(userId)
-    }).then(() => getPosts())
+    }).catch(e => toast.error(e.message))
   }
 
-  async function dislikePost(userId: string | undefined, postId: string){
+  async function dislikePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent){
+
+    e.stopPropagation()
 
     if(!userId){
       toast.error("Se registre para dar down nesse post")
@@ -130,11 +135,11 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     await updateDoc(doc(db, "Posts", postId), {
       likes: arrayRemove(userId),
       dislikes: arrayUnion(userId)
-    }).then(() => getPosts())
+    }).catch(e => toast.error(e.message))
   }
 
   return (
-    <FirestoreContext.Provider value={{ allPosts, createPost, likePost, dislikePost }} >
+    <FirestoreContext.Provider value={{ allPosts, createPost, findPostById, likePost, dislikePost }} >
       {children}
     </FirestoreContext.Provider>
   )
