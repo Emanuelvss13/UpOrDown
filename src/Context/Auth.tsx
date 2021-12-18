@@ -28,7 +28,7 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
   const auth = getAuth();
 
   useEffect(() => {
-    const authChange = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
 
       if(user){
         const { displayName, photoURL, uid} = user
@@ -42,7 +42,7 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
     })
 
     return () => {
-      authChange()
+      unsubscribe()
     }
 
   }, [auth, user])
