@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap');
+
+.Container{
+  display: flex;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+  gap: 1rem;
+
+  .PostContainer{
+    padding: 1rem;
+    width: 60%;
+    height: auto;
+    border-right: 0.1rem var(--light-gray) solid;
+  }
+
+  .CommentsContainer{
+    margin-top: 1rem;
+    border: 0.1rem var(--light-gray) solid;
+    padding: 1rem;
+    padding-bottom: 0;
+    width: 40%;
+    border-radius: 0.5rem;
+    height: 77vh;
+
+    .header{
+      display: flex;
+      justify-content: center;
+      width: 90%;
+      margin: 0 auto;
+      border-bottom: 0.1rem var(--light-gray) solid;
+
+      h3{
+        font-family: 'Corinthia', cursive;
+        font-size: 3rem;
+      }
+    }
+
+    .content{
+      padding: 1rem 0 1rem 0;
+      height: 73%;
+      overflow-x: auto;
+
+      &::-webkit-scrollbar {
+        width: 0.4rem;
+      }
+    }
+
+    .CommentContainer{
+      display: flex;
+      align-items: center;
+      width: 90%;
+      margin: 0 auto;
+      padding: 0.5rem;
+      height: auto;
+      gap: 0.3rem;
+
+      .authorPhoto{
+        align-self: flex-start;
+        height: auto;
+        img{
+          width: 3rem;
+          border-radius: 2.5rem;
+        }
+      }
+
+      .CommentText{
+        display: flex;
+        gap: 0.3rem;
+        height: inherit;
+        align-items: center;
+        flex-wrap: wrap;
+
+        p{
+          font-weight: 800;
+        }  
+      }
+    }
+
+    .InputContainer{
+      height: 10vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 0.1rem var(--light-gray) solid;
+      
+      div{
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        input{
+          padding: 0.5rem;
+          width: 90%;
+          margin: 0 auto;
+          border: 0;
+          outline: 0;
+          border-bottom: 0.1rem var(--light-gray) solid;
+        }
+      }
+
+
+      .inputButton{
+        width: 10%;
+        height: 100%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 0.1rem var(--light-gray) solid;
+
+        img{
+          width: 2rem;
+        }
+
+      }
+    }
+  }
+}
