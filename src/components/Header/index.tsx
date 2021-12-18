@@ -1,14 +1,17 @@
 import style from "./style.module.scss"
 import { AuthContext } from "../../Context/Auth"
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Home() {
+
+  const navigate = useNavigate()
 
   const {user, singInWithGoogle, singOut} = useContext(AuthContext)
 
   return (
     <header className={style.Container}>
-      <p className={style.logo} >UpOrDown</p>
+      <p onClick={() => navigate("/")} className={style.logo} >UpOrDown</p>
 
       {user ? 
         <div className={style.LoggedUser} >
