@@ -5,17 +5,20 @@ import Header from "./components/Header"
 import AuthContextProvider from './Context/Auth';
 import {Toaster} from "react-hot-toast"
 import Footer from './components/footer';
+import FirestoreContextProvider from './Context/Firestore';
 
 export default function App() {
   return (
     <Router>
       <Toaster/>
       <AuthContextProvider>
-        <Header/>
-        <Routes>
-          <Route path="/" element={<Home/>} />
-        </Routes>
-        <Footer/>
+        <FirestoreContextProvider>
+          <Header/>
+          <Routes>
+            <Route path="/" element={<Home/>} />
+          </Routes>
+          <Footer/>
+        </FirestoreContextProvider>
       </AuthContextProvider>
     </Router>
   )
