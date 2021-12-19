@@ -5,6 +5,8 @@ import { FirestoreContext } from "../../Context/Firestore"
 import style from "./style.module.scss"
 
 import send from "../../Assets/send.png"
+import { doc, onSnapshot } from "firebase/firestore"
+import { db } from "../../Config/firebase"
 
 interface Author {
   name: string;
@@ -44,14 +46,28 @@ export default function Post() {
 
   const [commentBody, setCommentBody] = useState("")
 
-  const {findPostById} = useContext(FirestoreContext)
-
   useEffect(() => {
-
     if(id){
-      findPostById(id).then(response => setPost(response as PostType)).catch(() => navigate("/"))
+      
+      const unsubscribe = onSnapshot(doc(db, "Posts", id), doc => {
+        
+        if(!doc.exists()){
+          navigate("/")
+        }
+
+        const data = doc.data() as PostProps
+        
+        setPost({data: data, id: id})
+      })
+
+      return () => {
+        unsubscribe()
+      }
+
+    } else {
+      navigate("/")
     }
-  }, [findPostById, id, navigate])
+  }, [id, navigate])
 
   return (
     <div className={style.Container}>
