@@ -2,7 +2,8 @@ import style from "./style.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
 import PostContent from "../../components/Post";
-import { useNavigate } from "react-router-dom";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "../../Config/firebase";
 
 interface Author {
   name: string;
@@ -24,15 +25,30 @@ interface Post {
 }
 
 export default function Home() {
-  const [postBody, setPostBody] = useState("");
+  const [postBody, setPostBody] = useState<string | undefined>();
 
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<any>([]);
 
-  const { createPost, allPosts } = useContext(FirestoreContext);
+  const { createPost } = useContext(FirestoreContext);
 
   useEffect(() => {
-    setPosts(allPosts);
-  }, [allPosts]);
+    const postRef = collection(db, "Posts");
+
+    const q = query(postRef, orderBy("timestamp", "desc"));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const postsRaw = querySnapshot.docs.map((doc) => ({
+        data: doc.data(),
+        id: doc.id,
+      })) as Post[];
+
+      setPosts(postsRaw);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className={style.Container}>
@@ -40,20 +56,15 @@ export default function Home() {
         <textarea
           onChange={({ target }) => setPostBody(target.value)}
           value={postBody}
-          placeholder="Escreva um topico!"
+          placeholder="Escreva um post!"
           rows={5}
         />
-        <button onClick={() => createPost(postBody)}>Postar</button>
+        <button onClick={() => createPost(postBody!)}>Postar</button>
       </div>
 
       <div className={style.PostContentContainer}>
         {posts.length > 0
-          ? posts.map((post) => (
-              <PostContent
-                post={post}
-                key={post.id}
-              />
-            ))
+          ? posts.map((post: any) => <PostContent post={post} key={post.id} />)
           : "Nenhum pos ainda :("}
       </div>
     </div>

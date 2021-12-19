@@ -1,11 +1,10 @@
-import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore"
-import { BaseSyntheticEvent, createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, updateDoc } from "firebase/firestore"
+import { BaseSyntheticEvent, createContext, ReactNode, useContext} from "react"
 import toast from "react-hot-toast"
 import { db } from "../Config/firebase"
 import { AuthContext } from "./Auth"
 
 interface FirestoreConxtextProps {
-  allPosts: Post[];
   findPostById: (id: string) => Promise<Post>;
   createComment: (commentBody: string, postId: string) => Promise<void>;
   createPost: (body: string) => Promise<void>;
@@ -40,28 +39,7 @@ export const FirestoreContext = createContext({} as FirestoreConxtextProps)
 
 export default function FirestoreContextProvider({children}: FirestoreContextProviderProps) {
 
-  const [allPosts, setAllPosts] = useState<Post[]>([])
-
   const {user} = useContext(AuthContext)
-
-  
-  useEffect(() => {
-    const postRef = collection(db, "Posts")
-
-    const q = query(postRef, orderBy("timestamp", "desc"))
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const postsRaw = querySnapshot.docs.map(doc => ({ data: doc.data(), id: doc.id })) as Post[]
-
-      setAllPosts(postsRaw)
-
-    })
-
-    return () => {
-      unsubscribe()
-    }
-
-  }, [])
 
   async function findPostById(id: string){
 
@@ -76,11 +54,17 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
   }
 
   async function createComment(commentBody: string, postId: string){
-
+    
     if(!user){
-      toast.error("Se registre para criar um tópico")
+      toast.error("Se registre para fazer um comentário")
       return 
     }
+
+    if(!commentBody){
+      toast.error("Escreva algo no seu comentário!")
+      return
+    }
+
 
     const comentario = {
       author:{
@@ -108,11 +92,17 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
   }
 
   async function createPost(postBody: string){
-
+    
     if(!user){
-      toast.error("Se registre para criar um tópico")
+      toast.error("Se registre para criar um post")
       return 
     }
+
+    if(!postBody){
+      toast.error("Escreva algo no seu post!")
+      return
+    }
+
 
     try {
 
@@ -172,7 +162,7 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
   }
 
   return (
-    <FirestoreContext.Provider value={{ allPosts, createPost, findPostById, createComment, likePost, dislikePost }} >
+    <FirestoreContext.Provider value={{ createPost, findPostById, createComment, likePost, dislikePost }} >
       {children}
     </FirestoreContext.Provider>
   )
