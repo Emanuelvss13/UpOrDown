@@ -2,28 +2,16 @@ import style from "./style.module.scss";
 
 import { ReactComponent as Up } from "../../Assets/up.svg";
 import { ReactComponent as Down } from "../../Assets/down.svg";
+import { ReactComponent as Trash } from "../../Assets/trash.svg";
 import { useContext } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
 import { AuthContext } from "../../Context/Auth";
 import { useNavigate } from "react-router-dom";
 
-interface Author {
-  name: string;
-  photo: string;
-}
-
-interface PostProps {
-  author: Author;
-  body: string;
-  end: boolean;
-  likes: string[];
-  dislikes: string[];
-  timestamp: string;
-}
-
-interface Post {
-  data: PostProps;
-  id: string;
+interface ComentariosProps {
+  author: AuthorPost
+  photo: string
+  content: string
 }
 
 interface PostContentProps {
@@ -31,11 +19,32 @@ interface PostContentProps {
   scroll?: boolean
 }
 
+interface AuthorPost {
+  id?: string;
+  name: string;
+  photo: string;
+}
+
+interface PostProps {
+  author: AuthorPost;
+  body: string;
+  end: boolean;
+  likes: string[];
+  dislikes: string[];
+  timestamp: string;
+  comentarios: ComentariosProps[];
+}
+
+interface Post {
+  data: PostProps;
+  id: string;
+}
+
 export default function PostContent({ post, scroll }: PostContentProps) {
 
   const { user } = useContext(AuthContext);
 
-  const { likePost, dislikePost } = useContext(FirestoreContext);
+  const { likePost, dislikePost, deletePost } = useContext(FirestoreContext);
 
   const navigate = useNavigate();
 
@@ -67,6 +76,13 @@ export default function PostContent({ post, scroll }: PostContentProps) {
           <p className={style.off}>Encerrado</p>
         ) : (
           <p className={style.on}>Ativo</p>
+        )}
+        <p>{post.data.comentarios.length} comentários</p>
+
+        {post.data.author.id === user?.id && (
+          <div className={style.actions} >
+            <Trash onClick={(e) => deletePost(post.id, e)} />
+          </div>
         )}
       </div>
       <div className={scroll ? style.contentOne : style.content}>

@@ -41,6 +41,18 @@
     .off {
       color: var(--secundary);
     }
+
+    .actions{
+      svg{
+        fill: black;
+        transition: 0.2s;
+
+        &:hover{
+          transition: 0.2s;
+          fill: var(--secundary);
+        }
+      }
+    }
   }
 
   .contentOne {
@@ -88,14 +100,27 @@
     svg {
       width: 5rem;
       height: 2rem;
-      transition: 1s;
       cursor: pointer;
+      transition: 0.2s;
+      fill: var(--logo-blue);
 
-      &.up:hover path {
+      &.up path{
+        transition: 0.2s;
+        fill: var(--logo-blue);
+      }
+
+      &.down path{
+        transition: 0.2s;
+        fill: var(--logo-blue);
+      }
+
+      &.up:hover path{
+        transition: 0.2s;
         fill: var(--green);
       }
 
-      &.down:hover path {
+      &.down:hover path{
+        transition: 0.2s;
         fill: var(--secundary);
       }
     }

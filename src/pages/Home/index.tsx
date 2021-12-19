@@ -5,13 +5,14 @@ import PostContent from "../../components/Post";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../Config/firebase";
 
-interface Author {
+interface AuthorHome {
+  id: string;
   name: string;
   photo: string;
 }
 
 interface PostProps {
-  author: Author;
+  author: AuthorHome;
   body: string;
   end: boolean;
   likes: string[];
@@ -25,9 +26,9 @@ interface Post {
 }
 
 export default function Home() {
-  const [postBody, setPostBody] = useState<string | undefined>();
+  const [postBody, setPostBody] = useState<string>();
 
-  const [posts, setPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const { createPost } = useContext(FirestoreContext);
 
@@ -63,9 +64,13 @@ export default function Home() {
       </div>
 
       <div className={style.PostContentContainer}>
-        {posts.length > 0
-          ? posts.map((post: any) => <PostContent post={post} key={post.id} />)
-          : "Nenhum pos ainda :("}
+        {posts.length > 0 ? (
+          posts.map((post: any) => <PostContent post={post} key={post.id} />)
+        ) : (
+          <div className={style.LoadingContainer} >
+
+          </div>
+        )}
       </div>
     </div>
   );
