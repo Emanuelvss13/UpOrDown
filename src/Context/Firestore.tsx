@@ -1,4 +1,4 @@
-import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, updateDoc } from "firebase/firestore"
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"
 import { BaseSyntheticEvent, createContext, ReactNode, useContext} from "react"
 import toast from "react-hot-toast"
 import { db } from "../Config/firebase"
@@ -8,6 +8,7 @@ interface FirestoreConxtextProps {
   findPostById: (id: string) => Promise<Post>;
   createComment: (commentBody: string, postId: string) => Promise<void>;
   createPost: (body: string) => Promise<void>;
+  deletePost: (postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
   likePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
   dislikePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
 }
@@ -72,7 +73,8 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
         name: user.name,
         photo: user.avatar
       },
-      content: commentBody
+      content: commentBody,
+      timestamp: new Date().toISOString()
     }
 
     try {
@@ -131,6 +133,16 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     }
   }
 
+  async function deletePost(postId: string, e: Event | BaseSyntheticEvent){
+
+    e.stopPropagation()
+
+    await deleteDoc(doc(db, "Posts", postId))
+    .then(() => toast.success("Post deletado com sucesso!"))
+    .catch(e => toast.error(e.message))
+
+  }
+
   async function likePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent){
 
     e.stopPropagation()
@@ -162,7 +174,7 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
   }
 
   return (
-    <FirestoreContext.Provider value={{ createPost, findPostById, createComment, likePost, dislikePost }} >
+    <FirestoreContext.Provider value={{ createPost, findPostById, createComment, deletePost, likePost, dislikePost }} >
       {children}
     </FirestoreContext.Provider>
   )
