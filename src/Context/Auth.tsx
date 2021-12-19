@@ -1,34 +1,31 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react'
-import { getAuth, signInWithPopup, signOut } from "firebase/auth";
-import {Google} from '../Config/firebase'
-import toast from 'react-hot-toast';
+import React, { createContext, ReactNode, useEffect, useState } from "react";
+import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { Google, auth } from "../Config/firebase";
+import toast from "react-hot-toast";
 
 interface AuthContexTypes {
   user: User | undefined;
-  singInWithGoogle: () => Promise<void>
-  singOut: () => Promise<void>
+  singInWithGoogle: () => Promise<void>;
+  singOut: () => Promise<void>;
 }
 
 interface User {
-  id: string,
-  name: string,
-  avatar: string
+  id: string;
+  name: string;
+  avatar: string;
 }
 
 interface AuthContextProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
-export const AuthContext = createContext({} as AuthContexTypes)
+export const AuthContext = createContext({} as AuthContexTypes);
 
 export default function AuthContextProvider(props: AuthContextProviderProps) {
-
-  const [user, setUser] = useState<User>()
-
-  const auth = getAuth();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    onAuthStateChanged(auth, user => {
 
       if(user){
         const { displayName, photoURL, uid} = user
@@ -40,43 +37,30 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
         })
       }
     })
+  }, [])
 
-    return () => {
-      unsubscribe()
-    }
-
-  }, [auth, user])
-
-  async function singInWithGoogle(){
-    
+  async function singInWithGoogle() {
     signInWithPopup(auth, Google)
-      .then((result) => {
-       
-        const user = result.user;
-        
-        console.log(user)
-        
-      }).catch((error) => {
-        toast.error(error.message)
+      .catch((error) => {
+        toast.error(error.message);
       });
   }
 
-  async function singOut(){
-    signOut(auth).then(() => {
+  async function singOut() {
+    signOut(auth)
+      .then(() => {
+        setUser(undefined);
 
-      setUser(undefined)
-
-      toast.success("Logout feito com sucesso")
-    })
-    .catch((error) => {
-      toast.error(error.message)
-    })
+        toast.success("Logout feito com sucesso");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }
 
-  return(
-    <AuthContext.Provider value={ {user, singInWithGoogle, singOut }}>
+  return (
+    <AuthContext.Provider value={{ user, singInWithGoogle, singOut }}>
       {props.children}
     </AuthContext.Provider>
-  )
-
+  );
 }
