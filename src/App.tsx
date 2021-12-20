@@ -4,9 +4,9 @@ import Home from "./pages/Home"
 import Header from "./components/Header"
 import AuthContextProvider from './Context/Auth';
 import {Toaster} from "react-hot-toast"
-import Footer from './components/footer';
 import FirestoreContextProvider from './Context/Firestore';
 import Post from './pages/Post';
+import User from './pages/User';
 
 export default function App() {
   return (
@@ -18,6 +18,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="post/:id" element={<Post/>}/>
+            <Route path="user/:id" element={<User/>} />
           </Routes>
           {/* <Footer/> */}
         </FirestoreContextProvider>

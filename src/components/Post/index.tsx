@@ -3,6 +3,7 @@ import style from "./style.module.scss";
 import { ReactComponent as Up } from "../../Assets/up.svg";
 import { ReactComponent as Down } from "../../Assets/down.svg";
 import { ReactComponent as Trash } from "../../Assets/trash.svg";
+import { ReactComponent as Change } from "../../Assets/change.svg";
 import { useContext } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
 import { AuthContext } from "../../Context/Auth";
@@ -59,6 +60,7 @@ export default function PostContent({ post, scroll }: PostContentProps) {
   return (
     <div
       className={style.PostContainer}
+      style={scroll ? {cursor: 'default'} : {cursor: 'pointer'}}
       key={post.id}
       onClick={toPostDetailsPage}
     >
@@ -81,7 +83,8 @@ export default function PostContent({ post, scroll }: PostContentProps) {
 
         {post.data.author.id === user?.id && (
           <div className={style.actions} >
-            <Trash onClick={(e) => deletePost(post.id, e)} />
+            <Trash className={style.trash} onClick={(e) => deletePost(post.id, e)} />
+            <Change className={style.change} />
           </div>
         )}
       </div>

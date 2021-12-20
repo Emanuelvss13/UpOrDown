@@ -1,0 +1,15 @@
+.Container {
+  width: 100%;
+  display: flex;
+
+  .UserContainer {
+    width: 30%;
+    height: 10vh;
+    padding: 0.5rem;
+    border-right: 0.1rem solid var(--light-gray);
+  }
+
+  PostsContainer {
+    width: 70%;
+  }
+}

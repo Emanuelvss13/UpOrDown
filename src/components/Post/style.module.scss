@@ -2,16 +2,26 @@
   0% { opacity: 0; }
   50% {opacity: 0.5;}
   100% { opacity: 1; } 
-  }
+}
+
+@keyframes rotate {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
 
 .PostContainer {
   border-radius: 0.5rem;
   width: 100%;
+  min-width: 350px;
   border: 1px solid var(--light-gray);
   padding: 1rem;
   cursor: pointer;
   transition: 0.2s;
   animation: fadeIn 0.3s;
+
+  &.PostContainerOne {
+    cursor: none;
+  }
   
   &:hover{
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -24,7 +34,8 @@
   .header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     gap: 1rem;
     width: 100%;
     border-bottom: 1px solid var(--light-gray);
@@ -55,13 +66,23 @@
     }
 
     .actions{
-      svg{
-        fill: black;
-        transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-        &:hover{
+      svg{
+        fill: var(--logo-blue);
+        transition: 0.2s;
+        width: 1.5rem;
+
+        &.trash:hover{
           transition: 0.2s;
           fill: var(--secundary);
+        }
+
+        &.change:hover{
+          fill: #EFD033;
+          transition: 0.2s;
         }
       }
     }
@@ -71,6 +92,7 @@
     padding-top: 0.5rem;
     display: flex;
     height: 60vh;
+    justify-content: center;
   }
 
   .content {
@@ -84,6 +106,13 @@
     width: 90%;
     overflow-x: scroll;
     padding-right: 0.4rem;
+    display: flex;
+    align-items: stretch;
+
+    p{
+      margin: 0 auto;
+      width: fit-content;
+    }
 
     &::-webkit-scrollbar {
       width: 0.2rem;
@@ -92,6 +121,12 @@
 
   .postBody {
     width: 90%;
+    display: flex;
+    align-items: center;
+    p{
+      margin: 0 auto;
+      width: fit-content
+    }
   }
 
   .actions {
@@ -108,10 +143,12 @@
 
     svg {
       width: 5rem;
+      min-width: 2rem;
       height: 2.5rem;
       cursor: pointer;
       transition: 0.2s;
       fill: var(--logo-blue);
+
 
       &.up path{
         transition: 0.2s;

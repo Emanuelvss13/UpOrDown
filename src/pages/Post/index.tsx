@@ -74,7 +74,7 @@ export default function Post() {
           <h3>Comentários</h3>
         </div>
         <div className={style.content}>
-          {post?.data.comentarios.map((comment) => (
+          {post?.data.comentarios.reverse().map((comment) => (
             <div className={style.CommentContainer}>
               <div className={style.authorPhoto}>
                 <img

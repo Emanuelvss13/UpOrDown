@@ -1,7 +1,8 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
-import { Google, auth } from "../Config/firebase";
+import { Google, auth, db } from "../Config/firebase";
 import toast from "react-hot-toast";
+import { addDoc, collection } from "firebase/firestore";
 
 interface AuthContexTypes {
   user: User | undefined;
@@ -40,7 +41,19 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
   }, [])
 
   async function singInWithGoogle() {
+
     signInWithPopup(auth, Google)
+    .then(async (response) => {
+
+      const user = response.user
+
+      await addDoc(collection(db, "Users"), {
+        id: user.uid,
+        name: user.displayName,
+        photo: user.photoURL
+      }).catch((e) => toast.error(e))
+      
+    })
       .catch((error) => {
         toast.error(error.message);
       });

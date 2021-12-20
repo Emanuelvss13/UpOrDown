@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap');
 
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100%{opacity: 1;}
+}
+
 .Container{
   display: flex;
   width: 100%;
@@ -7,11 +12,22 @@
   padding: 1rem;
   gap: 1rem;
 
+  @media screen and (max-width: 650px) {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .PostContainer{
     padding: 1rem;
     width: 60%;
     height: auto;
     border-right: 0.1rem var(--light-gray) solid;
+
+    @media screen and (max-width: 650px){
+      border-right: 0;
+
+      width: 100%;
+    }
   }
 
   .CommentsContainer{
@@ -22,6 +38,13 @@
     width: 40%;
     border-radius: 0.5rem;
     height: 77vh;
+
+    @media screen and (max-width: 650px){
+      width: 100%;
+      height: auto;
+      padding: 1rem;
+      gap: 2rem;
+    }
 
     .header{
       display: flex;
@@ -40,6 +63,7 @@
       padding: 1rem 0 1rem 0;
       height: 73%;
       overflow-x: auto;
+      animation: fadeIn 0.3s;
 
       &::-webkit-scrollbar {
         width: 0.4rem;
@@ -51,9 +75,9 @@
       align-items: center;
       width: 90%;
       margin: 0 auto;
-      padding: 0.5rem;
+      padding: 1rem;
       height: auto;
-      gap: 0.3rem;
+      gap: 1rem;
 
       .authorPhoto{
         align-self: flex-start;
@@ -78,7 +102,7 @@
     }
 
     .InputContainer{
-      height: 10vh;
+      height: auto;
       width: 100%;
       display: flex;
       align-items: center;
@@ -104,7 +128,8 @@
 
       .inputButton{
         width: 10%;
-        height: 100%;
+        height: auto;
+        padding: 0.5rem;
         cursor: pointer;
         display: flex;
         align-items: center;
