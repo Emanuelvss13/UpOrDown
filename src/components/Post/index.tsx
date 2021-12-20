@@ -92,14 +92,14 @@ export default function PostContent({ post, scroll }: PostContentProps) {
         <div className={style.actions}>
           <div>
             <Up
-              className={style.up}
+              className={post.data.likes.includes(user?.id || "") ? style.upSelected : style.up}
               onClick={(e) => likePost(user?.id, post.id, e)}
             />
             <p>{post.data.likes.length}</p>
           </div>
           <div>
             <Down
-              className={style.down}
+              className={post.data.dislikes.includes(user?.id || "") ? style.downSelected : style.down}
               onClick={(e) => dislikePost(user?.id, post?.id, e)}
             />
             <p>{post.data.dislikes.length}</p>

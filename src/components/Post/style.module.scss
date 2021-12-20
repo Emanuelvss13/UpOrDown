@@ -1,9 +1,21 @@
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  50% {opacity: 0.5;}
+  100% { opacity: 1; } 
+  }
+
 .PostContainer {
   border-radius: 0.5rem;
   width: 100%;
   border: 1px solid var(--light-gray);
   padding: 1rem;
   cursor: pointer;
+  transition: 0.2s;
+  animation: fadeIn 0.3s;
+  
+  &:hover{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
 
   & + div {
     margin-top: 1rem;
@@ -59,9 +71,6 @@
     padding-top: 0.5rem;
     display: flex;
     height: 60vh;
-
-   
-
   }
 
   .content {
@@ -99,7 +108,7 @@
 
     svg {
       width: 5rem;
-      height: 2rem;
+      height: 2.5rem;
       cursor: pointer;
       transition: 0.2s;
       fill: var(--logo-blue);
@@ -107,6 +116,14 @@
       &.up path{
         transition: 0.2s;
         fill: var(--logo-blue);
+      }
+
+      &.upSelected path{
+        fill: var(--green);
+      }
+
+      &.downSelected path{
+        fill: var(--secundary);
       }
 
       &.down path{

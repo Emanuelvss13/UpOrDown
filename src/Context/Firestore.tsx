@@ -152,10 +152,19 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
       return
     }
 
-    await updateDoc(doc(db, "Posts", postId), {
-      likes: arrayUnion(userId),
-      dislikes: arrayRemove(userId)
-    }).catch(e => toast.error(e.message))
+    const post = await (await getDoc(doc(db, "Posts", postId))).data() as PostProps
+
+    if(post.likes.includes(userId)){
+      await updateDoc(doc(db, "Posts", postId), {
+        likes: arrayRemove(userId),
+      }).catch(e => toast.error(e.message))
+    } else {
+      await updateDoc(doc(db, "Posts", postId), {
+        likes: arrayUnion(userId),
+        dislikes: arrayRemove(userId)
+      }).catch(e => toast.error(e.message))
+    }
+
   }
 
   async function dislikePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent){
@@ -166,11 +175,21 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
       toast.error("Se registre para dar down nesse post")
       return
     }
+    
+    const post = await (await getDoc(doc(db, "Posts", postId))).data() as PostProps
 
-    await updateDoc(doc(db, "Posts", postId), {
-      likes: arrayRemove(userId),
-      dislikes: arrayUnion(userId)
-    }).catch(e => toast.error(e.message))
+    if(post.dislikes.includes(userId)){
+      await updateDoc(doc(db, "Posts", postId), {
+        dislikes: arrayRemove(userId),
+      }).catch(e => toast.error(e.message))
+    } else {
+      await updateDoc(doc(db, "Posts", postId), {
+        likes: arrayRemove(userId),
+        dislikes: arrayUnion(userId)
+      }).catch(e => toast.error(e.message))
+    }
+
+
   }
 
   return (
