@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import PostContent from "../../components/Post"
-import { FirestoreContext } from "../../Context/Firestore"
-import style from "./style.module.scss"
-
-import send from "../../Assets/send.png"
-import { doc, onSnapshot } from "firebase/firestore"
-import { db } from "../../Config/firebase"
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import PostContent from "../../components/Post";
+import { FirestoreContext } from "../../Context/Firestore";
+import style from "./style.module.scss";
+import send from "../../Assets/send.png";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../Config/firebase";
 
 interface Author {
   name: string;
@@ -14,9 +13,9 @@ interface Author {
 }
 
 interface ComentariosProps {
-  author: Author
-  photo: string
-  content: string
+  author: Author;
+  photo: string;
+  content: string;
 }
 
 interface PostProps {
@@ -25,8 +24,8 @@ interface PostProps {
   end: boolean;
   likes: string[];
   dislikes: string[];
-  timestamp: string; 
-  comentarios: ComentariosProps[]
+  timestamp: string;
+  comentarios: ComentariosProps[];
 }
 
 interface PostType {
@@ -35,56 +34,55 @@ interface PostType {
 }
 
 export default function Post() {
+  const { createComment } = useContext(FirestoreContext);
 
-  const {createComment} = useContext(FirestoreContext)
+  const { id } = useParams();
 
-  const {id} = useParams()
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [post, setPost] = useState<PostType>();
 
-  const [post, setPost] = useState<PostType>()
-
-  const [commentBody, setCommentBody] = useState("")
+  const [commentBody, setCommentBody] = useState("");
 
   useEffect(() => {
-    if(id){
-      
-      const unsubscribe = onSnapshot(doc(db, "Posts", id), doc => {
-        
-        if(!doc.exists()){
-          navigate("/")
+    if (id) {
+      const unsubscribe = onSnapshot(doc(db, "Posts", id), (doc) => {
+        if (!doc.exists()) {
+          navigate("/");
         }
 
-        const data = doc.data() as PostProps
-        
-        setPost({data: data, id: id})
-      })
+        const data = doc.data() as PostProps;
+
+        setPost({ data: data, id: id });
+      });
 
       return () => {
-        unsubscribe()
-      }
-
+        unsubscribe();
+      };
     } else {
-      navigate("/")
+      navigate("/");
     }
-  }, [id, navigate])
+  }, [id, navigate]);
 
   return (
     <div className={style.Container}>
-      <div className={style.PostContainer} >
+      <div className={style.PostContainer}>
         {post && <PostContent post={post} scroll />}
       </div>
-      <div className={style.CommentsContainer} >
-        <div className={style.header} >
+      <div className={style.CommentsContainer}>
+        <div className={style.header}>
           <h3>Comentários</h3>
         </div>
-        <div className={style.content} >
-          {post?.data.comentarios.map(comment => (
-            <div className={style.CommentContainer} >
-              <div className={style.authorPhoto} >
-                <img src={comment.author.photo} alt="foto de um usuário que fez um comentário" />
+        <div className={style.content}>
+          {post?.data.comentarios.map((comment) => (
+            <div className={style.CommentContainer}>
+              <div className={style.authorPhoto}>
+                <img
+                  src={comment.author.photo}
+                  alt="foto de um usuário que fez um comentário"
+                />
               </div>
-              <div className={style.CommentText} >
+              <div className={style.CommentText}>
                 <p>{comment.author.name}</p>
                 <span>{comment.content}</span>
               </div>
@@ -95,15 +93,21 @@ export default function Post() {
           <div>
             <input
               value={commentBody}
-              onChange={({target}) => setCommentBody(target.value)}
+              onChange={({ target }) => setCommentBody(target.value)}
               placeholder="Digite um comentário..."
             />
           </div>
-            <div className={style.inputButton} onClick={() => createComment(commentBody, post!.id)} >
-              <img src={send} alt="Enviar comentário" />
-            </div>
+          <div
+            className={style.inputButton}
+            onClick={() => {
+              createComment(commentBody, post!.id);
+              setCommentBody("");
+            }}
+          >
+            <img src={send} alt="Enviar comentário" />
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
