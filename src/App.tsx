@@ -7,6 +7,7 @@ import {Toaster} from "react-hot-toast"
 import FirestoreContextProvider from './Context/Firestore';
 import Post from './pages/Post';
 import User from './pages/User';
+import NotFound from './pages/Not Found';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/post/:id" element={<Post/>}/>
             <Route path="/user/:id" element={<User/>} />
+            <Route path="*" element={<NotFound/>} />
           </Routes>
           {/* <Footer/> */}
         </FirestoreContextProvider>
