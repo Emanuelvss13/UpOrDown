@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { BaseSyntheticEvent, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PostContent from "../../components/Post";
 import { FirestoreContext } from "../../Context/Firestore";
@@ -8,6 +8,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../Config/firebase";
 
 interface Author {
+  id: string
   name: string;
   photo: string;
 }
@@ -43,6 +44,13 @@ export default function Post() {
   const [post, setPost] = useState<PostType>();
 
   const [commentBody, setCommentBody] = useState("");
+
+  function toUserAccount(e: Event | BaseSyntheticEvent, userId: string){
+
+    e.stopPropagation()
+
+    navigate(`/user/${userId}`)
+  }
 
   useEffect(() => {
     if (id) {
@@ -83,7 +91,7 @@ export default function Post() {
                 />
               </div>
               <div className={style.CommentText}>
-                <p>{comment.author.name}</p>
+                <p className={style.author} onClick={(e) => toUserAccount(e, comment.author.id)} >{comment.author.name}</p>
                 <span>{comment.content}</span>
               </div>
             </div>
