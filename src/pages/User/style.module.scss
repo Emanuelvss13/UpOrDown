@@ -41,7 +41,7 @@
         transition: 0.2s;
         cursor: pointer;
         
-        &.myPosts{
+        &.myTopics{
           color: var(--logo-blue);
 
           &:hover{
@@ -49,7 +49,7 @@
           }
         }
 
-        &.myPostsActive{
+        &.myTopicsActive{
           color: var(--logo-blue);
           background-color: #587d9c;
         }
@@ -90,7 +90,7 @@
 
   }
 
-  .PostsContainer {
+  .TopicsContainer {
     margin: 0.5rem;
     width: 70%;
     padding: 1rem;

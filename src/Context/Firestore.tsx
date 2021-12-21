@@ -1,17 +1,17 @@
-import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore"
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"
 import { BaseSyntheticEvent, createContext, ReactNode, useContext} from "react"
 import toast from "react-hot-toast"
 import { db } from "../Config/firebase"
 import { AuthContext } from "./Auth"
 
 interface FirestoreConxtextProps {
-  findPostById: (id: string) => Promise<Post>;
-  createComment: (commentBody: string, postId: string, currentStatus: boolean) => Promise<void>;
-  createPost: (body: string) => Promise<void>;
-  changeStatus: (postId: string, currentStatus: boolean, e: Event | BaseSyntheticEvent) => Promise<void>
-  deletePost: (postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
-  likePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean) => Promise<void>;
-  dislikePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean) => Promise<void>;
+  findTopicById: (id: string) => Promise<Post>;
+  createComment: (commentBody: string, topicId: string, currentStatus: boolean) => Promise<void>;
+  createTopic: (body: string) => Promise<void>;
+  changeStatus: (topicId: string, currentStatus: boolean, e: Event | BaseSyntheticEvent) => Promise<void>
+  deleteTopic: (topicId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
+  likeTopic: (userId: string | undefined, topicId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean) => Promise<void>;
+  dislikeTopic: (userId: string | undefined, topicId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean) => Promise<void>;
 }
 
 interface Author {
@@ -47,9 +47,9 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
 
   const {user} = useContext(AuthContext)
 
-  async function findPostById(id: string){
+  async function findTopicById(id: string){
 
-    const postRef = doc(db, "Posts", id)
+    const postRef = doc(db, "Topics", id)
 
     const postRaw = await getDoc(postRef)
 
@@ -59,19 +59,19 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     
   }
 
-  async function changeStatus(postId: string, currentStatus: boolean, e: Event | BaseSyntheticEvent){
+  async function changeStatus(topicId: string, currentStatus: boolean, e: Event | BaseSyntheticEvent){
 
     e.stopPropagation()
 
-    await updateDoc(doc(db, "Posts", postId), {
+    await updateDoc(doc(db, "Topics", topicId), {
       end: !currentStatus
     })
   }
 
-  async function createComment(commentBody: string, postId: string, currentStatus: boolean){
+  async function createComment(commentBody: string, topicId: string, currentStatus: boolean){
 
     if(currentStatus){
-      toast.error("post já encerrado")
+      toast.error("Tópico já encerrado")
       return
     }
     
@@ -97,10 +97,7 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     }
 
     try {
-
-      toast.loading("Postando...")
-
-      await updateDoc(doc(db, "Posts", postId), {
+      await updateDoc(doc(db, "Topics", topicId), {
         comentarios: arrayUnion(comentario)
       }).then(() => toast.dismiss())
 
@@ -112,24 +109,21 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
 
   }
 
-  async function createPost(postBody: string){
+  async function createTopic(postBody: string){
     
     if(!user){
-      toast.error("Se registre para criar um post")
+      toast.error("Se registre para criar um tópico")
       return 
     }
 
     if(!postBody){
-      toast.error("Escreva algo no seu post!")
+      toast.error("Escreva algo no seu tópico!")
       return
     }
 
 
     try {
-
-      toast.loading("Postando...")
-
-      await addDoc(collection(db, "Posts"), {
+      await addDoc(collection(db, "Topics"), {
         author:{
           id: user?.id,
           name: user?.name,
@@ -145,45 +139,45 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
         toast.dismiss()
       })
 
-      toast.success("Post criado com sucesso!")
+      toast.success("Tópico criado com sucesso!")
     } catch (error: any) {
       toast.dismiss()
       toast.error(error.message)
     }
   }
 
-  async function deletePost(postId: string, e: Event | BaseSyntheticEvent){
+  async function deleteTopic(topicId: string, e: Event | BaseSyntheticEvent){
 
     e.stopPropagation()
 
-    await deleteDoc(doc(db, "Posts", postId))
-    .then(() => toast.success("Post deletado com sucesso!"))
+    await deleteDoc(doc(db, "Topics", topicId))
+    .then(() => toast.success("Tópico deletado com sucesso!"))
     .catch(e => toast.error(e.message))
 
   }
 
-  async function likePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean){
+  async function likeTopic(userId: string | undefined, topicId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean){
 
     e.stopPropagation()
 
     if(currentStatus){
-      toast.error("post já encerrado")
+      toast.error("Tópico já encerrado")
       return
     }
 
     if(!userId){
-      toast.error("Se registre para dar up nesse post")
+      toast.error("Se registre para dar up nesse tópico")
       return
     }
 
-    const post = await (await getDoc(doc(db, "Posts", postId))).data() as PostProps
+    const post = await (await getDoc(doc(db, "Topics", topicId))).data() as PostProps
 
     if(post.likes.includes(userId)){
-      await updateDoc(doc(db, "Posts", postId), {
+      await updateDoc(doc(db, "Topics", topicId), {
         likes: arrayRemove(userId),
       }).catch(e => toast.error(e.message))
     } else {
-      await updateDoc(doc(db, "Posts", postId), {
+      await updateDoc(doc(db, "Topics", topicId), {
         likes: arrayUnion(userId),
         dislikes: arrayRemove(userId)
       }).catch(e => toast.error(e.message))
@@ -191,28 +185,28 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
 
   }
 
-  async function dislikePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean){
+  async function dislikeTopic(userId: string | undefined, topicId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean){
 
     e.stopPropagation()
 
     if(currentStatus){
-      toast.error("post já encerrado")
+      toast.error("Tópico já encerrado")
       return
     }
 
     if(!userId){
-      toast.error("Se registre para dar down nesse post")
+      toast.error("Se registre para dar down nesse tópico")
       return
     }
     
-    const post = await (await getDoc(doc(db, "Posts", postId))).data() as PostProps
+    const post = await (await getDoc(doc(db, "Topics", topicId))).data() as PostProps
 
     if(post.dislikes.includes(userId)){
-      await updateDoc(doc(db, "Posts", postId), {
+      await updateDoc(doc(db, "Topics", topicId), {
         dislikes: arrayRemove(userId),
       }).catch(e => toast.error(e.message))
     } else {
-      await updateDoc(doc(db, "Posts", postId), {
+      await updateDoc(doc(db, "Topics", topicId), {
         likes: arrayRemove(userId),
         dislikes: arrayUnion(userId)
       }).catch(e => toast.error(e.message))
@@ -220,7 +214,7 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
   }
 
   return (
-    <FirestoreContext.Provider value={{ changeStatus, createPost, findPostById, createComment, deletePost, likePost, dislikePost }} >
+    <FirestoreContext.Provider value={{ changeStatus, createTopic, findTopicById, createComment, deleteTopic, likeTopic, dislikeTopic }} >
       {children}
     </FirestoreContext.Provider>
   )

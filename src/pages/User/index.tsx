@@ -45,7 +45,7 @@ export default function User() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<UserProps>();
-  const [posts, setPosts] = useState<Post[]>()
+  const [topics, setTopics] = useState<Post[]>()
   const [postQuery, setPostQuery] = useState(0);
   const [noPost, setNoPost] = useState(false)
 
@@ -63,7 +63,7 @@ export default function User() {
         data.docs.map((user) => setUser(user.data() as UserProps));
       });
 
-      const postRef = collection(db, "Posts");
+      const postRef = collection(db, "Topics");
 
       let qPost;
 
@@ -80,11 +80,11 @@ export default function User() {
 
       const unsubscribe = onSnapshot(qPost, (querySnapshot) => {
         setNoPost(querySnapshot.empty)
-        const postsRaw = querySnapshot.docs.map((doc) => ({
+        const topicsRaw = querySnapshot.docs.map((doc) => ({
           data: doc.data(),
           id: doc.id,
         })) as Post[];
-        setPosts(postsRaw);
+        setTopics(topicsRaw);
       });
 
       return () => {
@@ -101,19 +101,20 @@ export default function User() {
             <img src={user.photo} alt="" />
             <p className={style.userName} >{user.name}</p>
 
-            <p className={postQuery === 0 ? style.myPostsActive : style.myPosts} onClick={() => setPostQuery(0)} >Meus post&rsquo;s</p>
+            <p className={postQuery === 0 ? style.myTopicsActive : style.myTopics} onClick={() => setPostQuery(0)} >Meus Tópicos</p>
             <p className={postQuery === 1 ? style.myLikesActive : style.myLikes} onClick={() => setPostQuery(1)} >Meus Up&rsquo;s</p>
             <p className={postQuery === 2 ? style.myDislikesActive :style.myDislikes} onClick={() => setPostQuery(2)} >Meus Down&rsquo;s</p>
 
+            <span>{topics?.length}  { topics && topics.length > 1 ? ` Tópicos` : `Tópico`}</span>
           </div>
         </div>
       )}
 
-      <div className={style.PostsContainer}>
+      <div className={style.TopicsContainer}>
         {noPost ? <div className={style.noContent} >
-          <p>Nenhum Post Encontrado</p>
+          <p>Nenhum Tópico Encontrado</p>
         </div> : (
-          posts?.map((post) => <PostContent key={post.id} post={post}  />)
+          topics?.map((topic) => <PostContent key={topic.id} topic={topic}  />)
         )
         }
         </div>

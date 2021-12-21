@@ -46,7 +46,7 @@ export default function Post() {
 
   useEffect(() => {
     if (id) {
-      const unsubscribe = onSnapshot(doc(db, "Posts", id), (doc) => {
+      const unsubscribe = onSnapshot(doc(db, "Topics", id), (doc) => {
         if (!doc.exists()) {
           navigate("/");
         }
@@ -67,7 +67,7 @@ export default function Post() {
   return (
     <div className={style.Container}>
       <div className={style.PostContainer}>
-        {post && <PostContent post={post} scroll />}
+        {post && <PostContent topic={post} scroll />}
       </div>
       <div className={style.CommentsContainer}>
         <div className={style.header}>

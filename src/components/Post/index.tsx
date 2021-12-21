@@ -9,49 +9,49 @@ import { FirestoreContext } from "../../Context/Firestore";
 import { AuthContext } from "../../Context/Auth";
 import { useNavigate } from "react-router-dom";
 
-interface ComentariosProps {
-  author: AuthorPost
+interface CommentsProps {
+  author: AuthorTopic
   photo: string
   content: string
 }
 
-interface PostContentProps {
-  post: Post;
+interface TopicContentProps {
+  topic: Topic;
   scroll?: boolean
 }
 
-interface AuthorPost {
+interface AuthorTopic {
   id?: string;
   name: string;
   photo: string;
 }
 
-interface PostProps {
-  author: AuthorPost;
+interface TopicProps {
+  author: AuthorTopic;
   body: string;
   end: boolean;
   likes: string[];
   dislikes: string[];
   timestamp: string;
-  comentarios: ComentariosProps[];
+  comentarios: CommentsProps[];
 }
 
-interface Post {
-  data: PostProps;
+interface Topic {
+  data: TopicProps;
   id: string;
 }
 
-export default function PostContent({ post, scroll }: PostContentProps) {
+export default function PostContent({ topic, scroll }: TopicContentProps) {
 
   const { user } = useContext(AuthContext);
 
-  const { likePost, dislikePost, deletePost, changeStatus } = useContext(FirestoreContext);
+  const { likeTopic, dislikeTopic, deleteTopic, changeStatus } = useContext(FirestoreContext);
 
   const navigate = useNavigate();
 
   function toPostDetailsPage(){
     
-    navigate(`/post/${post.id}`)
+    navigate(`/post/${topic.id}`)
     
   }
 
@@ -59,58 +59,58 @@ export default function PostContent({ post, scroll }: PostContentProps) {
 
     e.stopPropagation()
 
-    navigate(`/user/${post.data.author.id}`)
+    navigate(`/user/${topic.data.author.id}`)
   }
 
   return (
     <div
       className={style.PostContainer}
       style={scroll ? {cursor: 'default'} : {cursor: 'pointer'}}
-      key={post.id}
+      key={topic.id}
       onClick={toPostDetailsPage}
     >
       <div className={style.header}>
         <div>
-          <img src={post.data.author.photo} alt="foto do autor" />
-          <p onClick={(e) => toUserAccount(e)} >{post.data.author.name}</p>
+          <img src={topic.data.author.photo} alt="foto do autor" />
+          <p onClick={(e) => toUserAccount(e)} >{topic.data.author.name}</p>
         </div>
         <p>
-          {new Date(post.data.timestamp).toLocaleDateString("pt-BR", {
+          {new Date(topic.data.timestamp).toLocaleDateString("pt-BR", {
             timeZone: "UTC",
           })}
         </p>
-        {post.data.end ? (
+        {topic.data.end ? (
           <p className={style.off}>Encerrado</p>
         ) : (
           <p className={style.on}>Ativo</p>
         )}
-        <p>{post.data.comentarios.length} comentários</p>
+        <p>{topic.data.comentarios.length} comentários</p>
 
-        {post.data.author.id === user?.id && (
+        {topic.data.author.id === user?.id && (
           <div className={style.actions} >
-            <Trash className={style.trash} onClick={(e) => deletePost(post.id, e)} />
-            <Change className={style.change} onClick={(e) => changeStatus(post.id, post.data.end, e)} />
+            <Trash className={style.trash} onClick={(e) => deleteTopic(topic.id, e)} />
+            <Change className={style.change} onClick={(e) => changeStatus(topic.id, topic.data.end, e)} />
           </div>
         )}
       </div>
       <div className={scroll ? style.contentOne : style.content}>
         <div className={scroll ? style.postOne : style.postBody}>
-          <p>{post.data.body}</p>
+          <p>{topic.data.body}</p>
         </div>
         <div className={style.actions}>
           <div>
             <Up
-              className={post.data.likes.includes(user?.id || "") ? style.upSelected : style.up}
-              onClick={(e) => likePost(user?.id, post.id, e, post.data.end)}
+              className={topic.data.likes.includes(user?.id || "") ? style.upSelected : style.up}
+              onClick={(e) => likeTopic(user?.id, topic.id, e, topic.data.end)}
             />
-            <p>{post.data.likes.length}</p>
+            <p>{topic.data.likes.length}</p>
           </div>
           <div>
             <Down
-              className={post.data.dislikes.includes(user?.id || "") ? style.downSelected : style.down}
-              onClick={(e) => dislikePost(user?.id, post?.id, e, post.data.end )}
+              className={topic.data.dislikes.includes(user?.id || "") ? style.downSelected : style.down}
+              onClick={(e) => dislikeTopic(user?.id, topic?.id, e, topic.data.end )}
             />
-            <p>{post.data.dislikes.length}</p>
+            <p>{topic.data.dislikes.length}</p>
           </div>
         </div>
       </div>

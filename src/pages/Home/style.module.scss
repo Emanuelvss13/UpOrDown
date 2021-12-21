@@ -2,16 +2,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 1rem;
   height: auto;
-  position: relative;
 
   .CreatePostContainer {
     display: flex;
     flex-direction: column;
     width: 50%;
-    min-width: 400px;
+    min-width: 250px;
 
     textarea {
       resize: none;
@@ -45,7 +45,7 @@
     width: 60%;
     height: auto;
     padding: 1rem;
-    min-width: 400px;
+    min-width: 250px;
 
     .LoadingContainer{
       

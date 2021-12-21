@@ -5,45 +5,52 @@ import PostContent from "../../components/Post";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../Config/firebase";
 
-interface AuthorHome {
-  id: string;
+interface CommentsProps {
+  author: AuthorTopic
+  photo: string
+  content: string
+}
+
+interface AuthorTopic {
+  id?: string;
   name: string;
   photo: string;
 }
 
-interface PostProps {
-  author: AuthorHome;
+interface TopicProps {
+  author: AuthorTopic;
   body: string;
   end: boolean;
   likes: string[];
   dislikes: string[];
   timestamp: string;
+  comentarios: CommentsProps[];
 }
 
-interface Post {
-  data: PostProps;
+interface Topic{
+  data: TopicProps;
   id: string;
 }
 
 export default function Home() {
   const [postBody, setPostBody] = useState<string>();
 
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [topics, setTopics] = useState<Topic[]>([]);
 
-  const { createPost } = useContext(FirestoreContext);
+  const { createTopic } = useContext(FirestoreContext);
 
   useEffect(() => {
-    const postRef = collection(db, "Posts");
+    const postRef = collection(db, "Topics");
 
     const q = query(postRef, orderBy("timestamp", "desc"));
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const postsRaw = querySnapshot.docs.map((doc) => ({
+      const topicsRaw = querySnapshot.docs.map((doc) => ({
         data: doc.data(),
         id: doc.id,
-      })) as Post[];
+      })) as Topic[];
 
-      setPosts(postsRaw);
+      setTopics(topicsRaw);
     });
 
     return () => {
@@ -57,15 +64,15 @@ export default function Home() {
         <textarea
           onChange={({ target }) => setPostBody(target.value)}
           value={postBody}
-          placeholder="Escreva um post!"
+          placeholder="Escreva um tópico!"
           rows={5}
         />
-        <button onClick={() => createPost(postBody!)}>Postar</button>
+        <button onClick={() => {createTopic(postBody!); setPostBody("")}}>Postar</button>
       </div>
 
       <div className={style.PostContentContainer}>
-        {posts.length > 0 ? (
-          posts.map((post: any) => <PostContent post={post} key={post.id} />)
+        {topics.length > 0 ? (
+          topics.map((topic: Topic) => <PostContent topic={topic} key={topic.id} />)
         ) : (
           <div className={style.LoadingContainer} >
 
