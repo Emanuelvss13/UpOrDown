@@ -1,12 +1,22 @@
 @keyframes fadeIn {
-  0% { opacity: 0; }
-  50% {opacity: 0.5;}
-  100% { opacity: 1; } 
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes rotate {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(360deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .PostContainer {
@@ -23,8 +33,8 @@
   &.PostContainerOne {
     cursor: none;
   }
-  
-  &:hover{
+
+  &:hover {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 
@@ -47,12 +57,12 @@
       justify-content: center;
       gap: 0.5rem;
 
-      div{
+      div {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
 
-        span{
+        span {
           font-size: 0.75rem;
           color: #3b3f45;
         }
@@ -63,11 +73,11 @@
         border-radius: 2.5rem;
       }
 
-      p{
+      p {
         transition: 0.2s;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
           text-decoration: underline;
         }
       }
@@ -85,25 +95,25 @@
       color: var(--secundary);
     }
 
-    .actionsHeader{
+    .actionsHeader {
       display: flex;
       align-items: center;
       justify-content: space-evenly;
       width: 10rem;
 
-      svg{
+      svg {
         fill: var(--logo-blue);
         transition: 0.2s;
         width: 2rem;
         cursor: pointer;
 
-        &.trash:hover{
+        &.trash:hover {
           transition: 0.2s;
           fill: var(--secundary);
         }
 
-        &.change:hover{
-          fill: #EFD033;
+        &.change:hover {
+          fill: #efd033;
           transition: 0.2s;
         }
       }
@@ -131,7 +141,7 @@
     display: flex;
     align-items: stretch;
 
-    p{
+    p {
       margin: 0 auto;
       width: fit-content;
     }
@@ -145,9 +155,9 @@
     width: 90%;
     display: flex;
     align-items: center;
-    p{
+    p {
       margin: 0 auto;
-      width: fit-content
+      width: fit-content;
     }
   }
 
@@ -171,38 +181,37 @@
       transition: 0.2s;
       fill: var(--logo-blue);
 
-
-      &.up path{
+      &.up path {
         transition: 0.2s;
         fill: var(--logo-blue);
       }
 
-      &.upSelected path{
+      &.upSelected path {
         fill: var(--green);
       }
 
-      &.downSelected path{
+      &.downSelected path {
         fill: var(--secundary);
       }
 
-      &.down path{
+      &.down path {
         transition: 0.2s;
         fill: var(--logo-blue);
       }
 
-      &.up:hover path{
+      &.up:hover path {
         transition: 0.2s;
         fill: var(--green);
       }
 
-      &.down:hover path{
+      &.down:hover path {
         transition: 0.2s;
         fill: var(--secundary);
       }
     }
   }
 
-  .footer{
+  .footer {
     border-top: 1px solid var(--light-gray);
     height: auto;
     padding: 1rem 0.5rem 1rem 0.5rem;

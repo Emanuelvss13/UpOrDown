@@ -8,7 +8,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../Config/firebase";
 
 interface Author {
-  id: string
+  id: string;
   name: string;
   photo: string;
 }
@@ -45,11 +45,10 @@ export default function Post() {
 
   const [commentBody, setCommentBody] = useState("");
 
-  function toUserAccount(e: Event | BaseSyntheticEvent, userId: string){
+  function toUserAccount(e: Event | BaseSyntheticEvent, userId: string) {
+    e.stopPropagation();
 
-    e.stopPropagation()
-
-    navigate(`/user/${userId}`)
+    navigate(`/user/${userId}`);
   }
 
   useEffect(() => {
@@ -91,7 +90,12 @@ export default function Post() {
                 />
               </div>
               <div className={style.CommentText}>
-                <p className={style.author} onClick={(e) => toUserAccount(e, comment.author.id)} >{comment.author.name}</p>
+                <p
+                  className={style.author}
+                  onClick={(e) => toUserAccount(e, comment.author.id)}
+                >
+                  {comment.author.name}
+                </p>
                 <span>{comment.content}</span>
               </div>
             </div>

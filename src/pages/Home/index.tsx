@@ -6,9 +6,9 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../Config/firebase";
 
 interface CommentsProps {
-  author: AuthorTopic
-  photo: string
-  content: string
+  author: AuthorTopic;
+  photo: string;
+  content: string;
 }
 
 interface AuthorTopic {
@@ -27,7 +27,7 @@ interface TopicProps {
   comentarios: CommentsProps[];
 }
 
-interface Topic{
+interface Topic {
   data: TopicProps;
   id: string;
 }
@@ -67,16 +67,23 @@ export default function Home() {
           placeholder="Escreva um tópico!"
           rows={5}
         />
-        <button onClick={() => {createTopic(postBody!); setPostBody("")}}>Postar</button>
+        <button
+          onClick={() => {
+            createTopic(postBody!);
+            setPostBody("");
+          }}
+        >
+          Postar
+        </button>
       </div>
 
       <div className={style.PostContentContainer}>
         {topics.length > 0 ? (
-          topics.map((topic: Topic) => <PostContent topic={topic} key={topic.id} />)
+          topics.map((topic: Topic) => (
+            <PostContent topic={topic} key={topic.id} />
+          ))
         ) : (
-          <div className={style.LoadingContainer} >
-
-          </div>
+          <div className={style.LoadingContainer}></div>
         )}
       </div>
     </div>

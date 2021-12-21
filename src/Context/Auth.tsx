@@ -26,41 +26,38 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    onAuthStateChanged(auth, user => {
-
-      if(user){
-        const { displayName, photoURL, uid} = user
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const { displayName, photoURL, uid } = user;
 
         setUser({
           id: uid,
           name: displayName!,
-          avatar: photoURL!
-        })
+          avatar: photoURL!,
+        });
       }
-    })
-  }, [])
+    });
+  }, []);
 
   async function singInWithGoogle() {
-
     signInWithPopup(auth, Google)
-    .then(async (response) => {
+      .then(async (response) => {
+        const user = response.user;
 
-      const user = response.user
+        const userRef = collection(db, "Users");
 
-      const userRef = collection(db, "Users");
+        const qUser = query(userRef, where("id", "==", user.uid));
 
-      const qUser = query(userRef, where("id", "==", user.uid));
+        const existUser = await getDocs(qUser);
 
-      const existUser = await getDocs(qUser)
-
-      if(existUser.empty){
-        await addDoc(collection(db, "Users"), {
-          id: user.uid,
-          name: user.displayName,
-          photo: user.photoURL
-        }).catch((e) => toast.error(e.message))
-      }
-    })
+        if (existUser.empty) {
+          await addDoc(collection(db, "Users"), {
+            id: user.uid,
+            name: user.displayName,
+            photo: user.photoURL,
+          }).catch((e) => toast.error(e.message));
+        }
+      })
       .catch((error) => {
         toast.error(error.message);
       });

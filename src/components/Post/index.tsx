@@ -11,14 +11,14 @@ import { AuthContext } from "../../Context/Auth";
 import { useNavigate } from "react-router-dom";
 
 interface CommentsProps {
-  author: AuthorTopic
-  photo: string
-  content: string
+  author: AuthorTopic;
+  photo: string;
+  content: string;
 }
 
 interface TopicContentProps {
   topic: Topic;
-  scroll?: boolean
+  scroll?: boolean;
 }
 
 interface AuthorTopic {
@@ -43,30 +43,27 @@ interface Topic {
 }
 
 export default function PostContent({ topic, scroll }: TopicContentProps) {
-
   const { user } = useContext(AuthContext);
 
-  const { likeTopic, dislikeTopic, deleteTopic, changeStatus } = useContext(FirestoreContext);
+  const { likeTopic, dislikeTopic, deleteTopic, changeStatus } =
+    useContext(FirestoreContext);
 
   const navigate = useNavigate();
 
-  function toPostDetailsPage(){
-    
-    navigate(`/post/${topic.id}`)
-    
+  function toPostDetailsPage() {
+    navigate(`/topic/${topic.id}`);
   }
 
-  function toUserAccount(e: Event | BaseSyntheticEvent){
+  function toUserAccount(e: Event | BaseSyntheticEvent) {
+    e.stopPropagation();
 
-    e.stopPropagation()
-
-    navigate(`/user/${topic.data.author.id}`)
+    navigate(`/user/${topic.data.author.id}`);
   }
 
   return (
     <div
       className={style.PostContainer}
-      style={scroll ? {cursor: 'default'} : {cursor: 'pointer'}}
+      style={scroll ? { cursor: "default" } : { cursor: "pointer" }}
       key={topic.id}
       onClick={toPostDetailsPage}
     >
@@ -74,7 +71,7 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
         <div className={style.user}>
           <img src={topic.data.author.photo} alt="foto do autor" />
           <div>
-            <p onClick={(e) => toUserAccount(e)} >{topic.data.author.name}</p>
+            <p onClick={(e) => toUserAccount(e)}>{topic.data.author.name}</p>
             <span>
               {new Date(topic.data.timestamp).toLocaleDateString("pt-BR", {
                 timeZone: "UTC",
@@ -82,7 +79,7 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
             </span>
           </div>
         </div>
-       
+
         {topic.data.end ? (
           <p className={style.off}>Encerrado</p>
         ) : (
@@ -90,9 +87,15 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
         )}
 
         {topic.data.author.id === user?.id && (
-          <div className={style.actionsHeader} >
-            <Trash className={style.trash} onClick={(e) => deleteTopic(topic.id, e)} />
-            <Change className={style.change} onClick={(e) => changeStatus(topic.id, topic.data.end, e)} />
+          <div className={style.actionsHeader}>
+            <Trash
+              className={style.trash}
+              onClick={(e) => deleteTopic(topic.id, e)}
+            />
+            <Change
+              className={style.change}
+              onClick={(e) => changeStatus(topic.id, topic.data.end, e)}
+            />
           </div>
         )}
       </div>
@@ -103,23 +106,37 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
         <div className={style.actions}>
           <div>
             <Up
-              className={topic.data.likes.includes(user?.id || "") ? style.upSelected : style.up}
+              className={
+                topic.data.likes.includes(user?.id || "")
+                  ? style.upSelected
+                  : style.up
+              }
               onClick={(e) => likeTopic(user?.id, topic.id, e, topic.data.end)}
             />
             <p>{topic.data.likes.length}</p>
           </div>
           <div>
             <Down
-              className={topic.data.dislikes.includes(user?.id || "") ? style.downSelected : style.down}
-              onClick={(e) => dislikeTopic(user?.id, topic?.id, e, topic.data.end )}
+              className={
+                topic.data.dislikes.includes(user?.id || "")
+                  ? style.downSelected
+                  : style.down
+              }
+              onClick={(e) =>
+                dislikeTopic(user?.id, topic?.id, e, topic.data.end)
+              }
             />
             <p>{topic.data.dislikes.length}</p>
           </div>
         </div>
       </div>
-      <div className={style.footer} >
-        <Message/>
-        <p className={style.comment} > {topic.data.comentarios.length} {topic.data.comentarios.length > 1 ? "comentários" : "comentário"}</p>
+      <div className={style.footer}>
+        <Message />
+        <p className={style.comment}>
+          {" "}
+          {topic.data.comentarios.length}{" "}
+          {topic.data.comentarios.length > 1 ? "comentários" : "comentário"}
+        </p>
       </div>
     </div>
   );

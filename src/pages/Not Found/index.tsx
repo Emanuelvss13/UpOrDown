@@ -12,6 +12,7 @@ export default function NotFound() {
   }, []);
   return (
     <div className={style.Container}>
+      
       <Player
         ref={player}
         autoplay

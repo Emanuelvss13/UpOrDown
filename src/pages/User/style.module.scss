@@ -1,8 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap");
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100%{opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .Container {
@@ -11,10 +15,9 @@
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: 600px){
+  @media screen and (max-width: 600px) {
     flex-wrap: wrap;
   }
-
 
   .UserContainer {
     width: 30%;
@@ -26,13 +29,13 @@
     border-right: 0.1rem solid var(--light-gray);
     animation: fadeIn 0.3s;
 
-    @media screen and (max-width: 600px){
+    @media screen and (max-width: 600px) {
       width: 80%;
       border: 0;
       border-bottom: 0.1rem solid var(--light-gray);
     }
 
-    .userInfo{
+    .userInfo {
       padding: 1rem;
       display: flex;
       flex-direction: column;
@@ -40,67 +43,63 @@
       justify-content: center;
       gap: 0.5rem;
 
-
-      p.userName{
+      p.userName {
         font-size: 2rem;
       }
 
-
-      p{
+      p {
         padding: 0.5rem 1rem;
         width: fit-content;
         font-size: 1.5rem;
         border-radius: 1.5rem;
         transition: 0.2s;
         cursor: pointer;
-        
-        &.myTopics{
+
+        &.myTopics {
           color: var(--logo-blue);
 
-          &:hover{
+          &:hover {
             background-color: #587d9c;
           }
         }
 
-        &.myTopicsActive{
+        &.myTopicsActive {
           color: var(--logo-blue);
           background-color: #587d9c;
         }
 
-        &.myLikes{
+        &.myLikes {
           color: var(--green);
-          
-          &:hover{
+
+          &:hover {
             background-color: #7dffdc;
           }
         }
 
-        &.myLikesActive{
+        &.myLikesActive {
           color: var(--green);
           background-color: #7dffdc;
         }
 
-        &.myDislikes{
+        &.myDislikes {
           color: var(--secundary);
 
-          &:hover{
+          &:hover {
             background-color: #ffa6ad;
           }
         }
 
-        &.myDislikesActive{
+        &.myDislikesActive {
           color: var(--secundary);
           background-color: #ffa6ad;
         }
       }
-      
-      img{
+
+      img {
         width: 10rem;
         border-radius: 5rem;
       }
-
     }
-
   }
 
   .TopicsContainer {
@@ -110,11 +109,11 @@
     height: calc(100vh - 16vh);
     overflow-x: scroll;
 
-    @media screen and (max-width: 600px){
+    @media screen and (max-width: 600px) {
       width: 100%;
     }
 
-    .noContent{
+    .noContent {
       width: 100%;
       height: 100%;
       display: flex;
@@ -122,12 +121,11 @@
       justify-content: center;
       animation: fadeIn 0.3s;
 
-      p{
+      p {
         text-align: center;
-        font-family: 'Corinthia', cursive;
+        font-family: "Corinthia", cursive;
         font-size: 5rem;
       }
     }
-
   }
 }

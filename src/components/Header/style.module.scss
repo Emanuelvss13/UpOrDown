@@ -1,11 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap");
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100%{opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.Container{
+.Container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,15 +26,14 @@
     justify-content: space-evenly;
   }
 
-
-  .logo{
+  .logo {
     cursor: pointer;
     color: var(--white);
     font-size: 4rem;
-    font-family: 'Corinthia', cursive;
+    font-family: "Corinthia", cursive;
   }
 
-  .ActionButton{
+  .ActionButton {
     background-color: var(--logo-blue);
     border: 0;
     color: var(--primary);
@@ -38,12 +41,12 @@
     transition: 0.2s;
     animation: fadeIn 0.5s;
 
-    &:hover{
+    &:hover {
       box-shadow: var(--primary) 0px 3px 0px;
     }
   }
 
-  .LoggedUser{
+  .LoggedUser {
     width: 20rem;
     padding: 0.5rem;
     display: flex;
@@ -51,16 +54,16 @@
     justify-content: space-evenly;
     animation: fadeIn 0.5s;
 
-    img{
+    img {
       width: 4rem;
       border-radius: 2rem;
     }
 
-    p{
+    p {
       color: var(--primary);
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         text-decoration: underline;
       }
     }

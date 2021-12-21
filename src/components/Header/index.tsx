@@ -8,11 +8,10 @@ export default function Home() {
 
   const { user, singInWithGoogle, singOut } = useContext(AuthContext);
 
-  function toUserAccount(e: Event | BaseSyntheticEvent){
+  function toUserAccount(e: Event | BaseSyntheticEvent) {
+    e.stopPropagation();
 
-    e.stopPropagation()
-
-    navigate(`/user/${user?.id}`)
+    navigate(`/user/${user?.id}`);
   }
 
   return (
@@ -24,7 +23,7 @@ export default function Home() {
       {user ? (
         <div className={style.LoggedUser}>
           <img src={user.avatar} alt="foto do usuário" />
-          <p onClick={(e) => toUserAccount(e)} >{user.name}</p>
+          <p onClick={(e) => toUserAccount(e)}>{user.name}</p>
           <button className={style.ActionButton} onClick={singOut}>
             Logout
           </button>

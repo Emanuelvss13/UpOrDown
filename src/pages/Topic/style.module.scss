@@ -1,11 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Corinthia&family=Fira+Code:wght@600&display=swap");
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100%{opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-.Container{
+.Container {
   display: flex;
   width: 100%;
   height: auto;
@@ -17,7 +21,7 @@
     flex-wrap: wrap;
   }
 
-  .PostContainer{
+  .PostContainer {
     padding: 1rem;
     width: 60%;
     display: flex;
@@ -25,13 +29,13 @@
     height: auto;
     border-right: 0.1rem var(--light-gray) solid;
 
-    @media screen and (max-width: 650px){
+    @media screen and (max-width: 650px) {
       border-right: 0;
       width: 100%;
     }
   }
 
-  .CommentsContainer{
+  .CommentsContainer {
     margin-top: 1rem;
     border: 0.1rem var(--light-gray) solid;
     padding: 1rem;
@@ -40,7 +44,7 @@
     border-radius: 0.5rem;
     height: 77vh;
 
-    @media screen and (max-width: 650px){
+    @media screen and (max-width: 650px) {
       width: 100%;
       height: auto;
       min-height: 55vh;
@@ -48,20 +52,20 @@
       gap: 2rem;
     }
 
-    .header{
+    .header {
       display: flex;
       justify-content: center;
       width: 90%;
       margin: 0 auto;
       border-bottom: 0.1rem var(--light-gray) solid;
 
-      h3{
-        font-family: 'Corinthia', cursive;
+      h3 {
+        font-family: "Corinthia", cursive;
         font-size: 3rem;
       }
     }
 
-    .content{
+    .content {
       padding: 1rem 0 1rem 0;
       height: 73%;
       overflow-x: auto;
@@ -72,7 +76,7 @@
       }
     }
 
-    .CommentContainer{
+    .CommentContainer {
       display: flex;
       align-items: center;
       width: 90%;
@@ -81,51 +85,51 @@
       height: auto;
       gap: 1rem;
 
-      .authorPhoto{
+      .authorPhoto {
         align-self: flex-start;
         height: auto;
-        img{
+        img {
           width: 3rem;
           border-radius: 2.5rem;
         }
       }
 
-      .CommentText{
+      .CommentText {
         display: flex;
         gap: 0.3rem;
         height: inherit;
         align-items: center;
         flex-wrap: wrap;
 
-        p{
+        p {
           font-weight: 800;
 
-          &.author{
+          &.author {
             cursor: pointer;
 
-            &:hover{
+            &:hover {
               text-decoration: underline;
             }
           }
-        }  
+        }
       }
     }
 
-    .InputContainer{
+    .InputContainer {
       height: auto;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-top: 0.1rem var(--light-gray) solid;
-      
-      div{
+
+      div {
         width: 90%;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        input{
+        input {
           padding: 0.5rem;
           width: 90%;
           margin: 0 auto;
@@ -135,8 +139,7 @@
         }
       }
 
-
-      .inputButton{
+      .inputButton {
         width: 10%;
         height: auto;
         padding: 0.5rem;
@@ -146,10 +149,9 @@
         justify-content: center;
         border-left: 0.1rem var(--light-gray) solid;
 
-        img{
+        img {
           width: 2rem;
         }
-
       }
     }
   }
