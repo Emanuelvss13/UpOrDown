@@ -38,3 +38,7 @@ yarn install
 # Rode a aplicação
 yarn start
 ```
+
+## Deploy
+
+https://emanuelupordown.netlify.app
