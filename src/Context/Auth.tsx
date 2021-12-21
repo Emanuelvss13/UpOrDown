@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { Google, auth, db } from "../Config/firebase";
 import toast from "react-hot-toast";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 interface AuthContexTypes {
   user: User | undefined;
@@ -47,18 +47,19 @@ export default function AuthContextProvider(props: AuthContextProviderProps) {
 
       const user = response.user
 
-      const existUser = await getDoc(doc(db, "Users", user.uid));
+      const userRef = collection(db, "Users");
 
-      if(existUser){
-        return
+      const qUser = query(userRef, where("id", "==", user.uid));
+
+      const existUser = await getDocs(qUser)
+
+      if(existUser.empty){
+        await addDoc(collection(db, "Users"), {
+          id: user.uid,
+          name: user.displayName,
+          photo: user.photoURL
+        }).catch((e) => toast.error(e.message))
       }
-
-      await addDoc(collection(db, "Users"), {
-        id: user.uid,
-        name: user.displayName,
-        photo: user.photoURL
-      }).catch((e) => toast.error(e.message))
-      
     })
       .catch((error) => {
         toast.error(error.message);
