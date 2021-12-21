@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { Google, auth, db } from "../Config/firebase";
 import toast from "react-hot-toast";
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 interface AuthContexTypes {
   user: User | undefined;
