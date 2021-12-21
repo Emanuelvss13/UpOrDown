@@ -8,6 +8,13 @@
 .Container {
   width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media screen and (max-width: 600px){
+    flex-wrap: wrap;
+  }
+
 
   .UserContainer {
     width: 30%;
@@ -18,6 +25,12 @@
     padding: 0.5rem;
     border-right: 0.1rem solid var(--light-gray);
     animation: fadeIn 0.3s;
+
+    @media screen and (max-width: 600px){
+      width: 80%;
+      border: 0;
+      border-bottom: 0.1rem solid var(--light-gray);
+    }
 
     .userInfo{
       padding: 1rem;
@@ -97,6 +110,10 @@
     height: calc(100vh - 16vh);
     overflow-x: scroll;
 
+    @media screen and (max-width: 600px){
+      width: 100%;
+    }
+
     .noContent{
       width: 100%;
       height: 100%;
@@ -106,6 +123,7 @@
       animation: fadeIn 0.3s;
 
       p{
+        text-align: center;
         font-family: 'Corinthia', cursive;
         font-size: 5rem;
       }
