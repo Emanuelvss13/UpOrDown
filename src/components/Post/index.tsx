@@ -4,6 +4,7 @@ import { ReactComponent as Up } from "../../Assets/up.svg";
 import { ReactComponent as Down } from "../../Assets/down.svg";
 import { ReactComponent as Trash } from "../../Assets/trash.svg";
 import { ReactComponent as Change } from "../../Assets/change.svg";
+import { ReactComponent as Message } from "../../Assets/message.svg";
 import { BaseSyntheticEvent, useContext } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
 import { AuthContext } from "../../Context/Auth";
@@ -70,24 +71,26 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
       onClick={toPostDetailsPage}
     >
       <div className={style.header}>
-        <div>
+        <div className={style.user}>
           <img src={topic.data.author.photo} alt="foto do autor" />
-          <p onClick={(e) => toUserAccount(e)} >{topic.data.author.name}</p>
+          <div>
+            <p onClick={(e) => toUserAccount(e)} >{topic.data.author.name}</p>
+            <span>
+              {new Date(topic.data.timestamp).toLocaleDateString("pt-BR", {
+                timeZone: "UTC",
+              })}
+            </span>
+          </div>
         </div>
-        <p>
-          {new Date(topic.data.timestamp).toLocaleDateString("pt-BR", {
-            timeZone: "UTC",
-          })}
-        </p>
+       
         {topic.data.end ? (
           <p className={style.off}>Encerrado</p>
         ) : (
           <p className={style.on}>Ativo</p>
         )}
-        <p>{topic.data.comentarios.length} comentários</p>
 
         {topic.data.author.id === user?.id && (
-          <div className={style.actions} >
+          <div className={style.actionsHeader} >
             <Trash className={style.trash} onClick={(e) => deleteTopic(topic.id, e)} />
             <Change className={style.change} onClick={(e) => changeStatus(topic.id, topic.data.end, e)} />
           </div>
@@ -113,6 +116,10 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
             <p>{topic.data.dislikes.length}</p>
           </div>
         </div>
+      </div>
+      <div className={style.footer} >
+        <Message/>
+        <p className={style.comment} > {topic.data.comentarios.length} {topic.data.comentarios.length > 1 ? "comentários" : "comentário"}</p>
       </div>
     </div>
   );

@@ -15,6 +15,7 @@
   min-width: 250px;
   border: 1px solid var(--light-gray);
   padding: 1rem;
+  padding-bottom: 0.25rem;
   cursor: pointer;
   transition: 0.2s;
   animation: fadeIn 0.3s;
@@ -34,18 +35,28 @@
   .header {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 1rem;
     width: 100%;
     border-bottom: 1px solid var(--light-gray);
     padding-bottom: 0.5rem;
 
-    div {
+    .user {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+
+      div{
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        span{
+          font-size: 0.75rem;
+          color: #3b3f45;
+        }
+      }
 
       img {
         width: 3rem;
@@ -74,16 +85,17 @@
       color: var(--secundary);
     }
 
-    .actions{
+    .actionsHeader{
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 5rem;
+      justify-content: space-evenly;
+      width: 10rem;
 
       svg{
         fill: var(--logo-blue);
         transition: 0.2s;
-        width: 0.5rem;
+        width: 2rem;
+        cursor: pointer;
 
         &.trash:hover{
           transition: 0.2s;
@@ -101,12 +113,12 @@
   .contentOne {
     padding-top: 0.5rem;
     display: flex;
-    height: 60vh;
+    height: 50vh;
     justify-content: center;
   }
 
   .content {
-    padding-top: 0.5rem;
+    padding: 0.5rem;
     display: flex;
     height: auto;
   }
@@ -188,5 +200,14 @@
         fill: var(--secundary);
       }
     }
+  }
+
+  .footer{
+    border-top: 1px solid var(--light-gray);
+    height: auto;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
