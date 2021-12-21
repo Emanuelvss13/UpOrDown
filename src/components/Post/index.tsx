@@ -4,7 +4,7 @@ import { ReactComponent as Up } from "../../Assets/up.svg";
 import { ReactComponent as Down } from "../../Assets/down.svg";
 import { ReactComponent as Trash } from "../../Assets/trash.svg";
 import { ReactComponent as Change } from "../../Assets/change.svg";
-import { useContext } from "react";
+import { BaseSyntheticEvent, useContext } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
 import { AuthContext } from "../../Context/Auth";
 import { useNavigate } from "react-router-dom";
@@ -45,16 +45,21 @@ export default function PostContent({ post, scroll }: PostContentProps) {
 
   const { user } = useContext(AuthContext);
 
-  const { likePost, dislikePost, deletePost } = useContext(FirestoreContext);
+  const { likePost, dislikePost, deletePost, changeStatus } = useContext(FirestoreContext);
 
   const navigate = useNavigate();
 
   function toPostDetailsPage(){
-
-    if(!window.location.pathname.includes("post")){
-      navigate(`post/${post.id}`)
-    }
     
+    navigate(`/post/${post.id}`)
+    
+  }
+
+  function toUserAccount(e: Event | BaseSyntheticEvent){
+
+    e.stopPropagation()
+
+    navigate(`/user/${post.data.author.id}`)
   }
 
   return (
@@ -67,7 +72,7 @@ export default function PostContent({ post, scroll }: PostContentProps) {
       <div className={style.header}>
         <div>
           <img src={post.data.author.photo} alt="foto do autor" />
-          <p>{post.data.author.name}</p>
+          <p onClick={(e) => toUserAccount(e)} >{post.data.author.name}</p>
         </div>
         <p>
           {new Date(post.data.timestamp).toLocaleDateString("pt-BR", {
@@ -84,7 +89,7 @@ export default function PostContent({ post, scroll }: PostContentProps) {
         {post.data.author.id === user?.id && (
           <div className={style.actions} >
             <Trash className={style.trash} onClick={(e) => deletePost(post.id, e)} />
-            <Change className={style.change} />
+            <Change className={style.change} onClick={(e) => changeStatus(post.id, post.data.end, e)} />
           </div>
         )}
       </div>
@@ -96,14 +101,14 @@ export default function PostContent({ post, scroll }: PostContentProps) {
           <div>
             <Up
               className={post.data.likes.includes(user?.id || "") ? style.upSelected : style.up}
-              onClick={(e) => likePost(user?.id, post.id, e)}
+              onClick={(e) => likePost(user?.id, post.id, e, post.data.end)}
             />
             <p>{post.data.likes.length}</p>
           </div>
           <div>
             <Down
               className={post.data.dislikes.includes(user?.id || "") ? style.downSelected : style.down}
-              onClick={(e) => dislikePost(user?.id, post?.id, e)}
+              onClick={(e) => dislikePost(user?.id, post?.id, e, post.data.end )}
             />
             <p>{post.data.dislikes.length}</p>
           </div>

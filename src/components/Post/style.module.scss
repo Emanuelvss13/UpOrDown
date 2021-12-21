@@ -51,6 +51,15 @@
         width: 3rem;
         border-radius: 2.5rem;
       }
+
+      p{
+        transition: 0.2s;
+        cursor: pointer;
+
+        &:hover{
+          text-decoration: underline;
+        }
+      }
     }
 
     .date {
