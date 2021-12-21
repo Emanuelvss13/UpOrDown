@@ -1,7 +1,7 @@
 import style from "./style.module.scss";
 import { useContext, useEffect, useState } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
-import PostContent from "../../components/Post";
+import Topic from "../../components/Topic";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../Config/firebase";
 
@@ -80,7 +80,7 @@ export default function Home() {
       <div className={style.PostContentContainer}>
         {topics.length > 0 ? (
           topics.map((topic: Topic) => (
-            <PostContent topic={topic} key={topic.id} />
+            <Topic topic={topic} key={topic.id} />
           ))
         ) : (
           <div className={style.LoadingContainer}></div>

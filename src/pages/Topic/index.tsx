@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PostContent from "../../components/Post";
+import Topic from "../../components/Topic";
 import { FirestoreContext } from "../../Context/Firestore";
 import style from "./style.module.scss";
 import send from "../../Assets/send.png";
@@ -74,7 +74,7 @@ export default function Post() {
   return (
     <div className={style.Container}>
       <div className={style.PostContainer}>
-        {post && <PostContent topic={post} scroll />}
+        {post && <Topic topic={post} scroll />}
       </div>
       <div className={style.CommentsContainer}>
         <div className={style.header}>

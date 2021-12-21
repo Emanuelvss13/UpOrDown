@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import PostContent from "../../components/Post";
+import PostContent from "../../components/Topic";
 import { db } from "../../Config/firebase";
 import style from "./style.module.scss";
 

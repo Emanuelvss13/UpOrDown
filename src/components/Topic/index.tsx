@@ -5,7 +5,7 @@ import { ReactComponent as Down } from "../../Assets/down.svg";
 import { ReactComponent as Trash } from "../../Assets/trash.svg";
 import { ReactComponent as Change } from "../../Assets/change.svg";
 import { ReactComponent as Message } from "../../Assets/message.svg";
-import { BaseSyntheticEvent, useContext } from "react";
+import { BaseSyntheticEvent, memo, useContext } from "react";
 import { FirestoreContext } from "../../Context/Firestore";
 import { AuthContext } from "../../Context/Auth";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,7 @@ interface Topic {
   id: string;
 }
 
-export default function PostContent({ topic, scroll }: TopicContentProps) {
+function Topic({ topic, scroll }: TopicContentProps) {
   const { user } = useContext(AuthContext);
 
   const { likeTopic, dislikeTopic, deleteTopic, changeStatus } =
@@ -141,3 +141,5 @@ export default function PostContent({ topic, scroll }: TopicContentProps) {
     </div>
   );
 }
+
+export default memo(Topic)
