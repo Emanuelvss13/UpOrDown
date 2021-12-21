@@ -100,7 +100,7 @@ export default function Post() {
           <div
             className={style.inputButton}
             onClick={() => {
-              createComment(commentBody, post!.id);
+              createComment(commentBody, post!.id, post!.data.end);
               setCommentBody("");
             }}
           >

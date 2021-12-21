@@ -17,8 +17,8 @@ export default function App() {
           <Header/>
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="post/:id" element={<Post/>}/>
-            <Route path="user/:id" element={<User/>} />
+            <Route path="/post/:id" element={<Post/>}/>
+            <Route path="/user/:id" element={<User/>} />
           </Routes>
           {/* <Footer/> */}
         </FirestoreContextProvider>
