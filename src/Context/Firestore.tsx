@@ -1,4 +1,4 @@
-import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore"
+import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore"
 import { BaseSyntheticEvent, createContext, ReactNode, useContext} from "react"
 import toast from "react-hot-toast"
 import { db } from "../Config/firebase"
@@ -6,16 +6,21 @@ import { AuthContext } from "./Auth"
 
 interface FirestoreConxtextProps {
   findPostById: (id: string) => Promise<Post>;
-  createComment: (commentBody: string, postId: string) => Promise<void>;
+  createComment: (commentBody: string, postId: string, currentStatus: boolean) => Promise<void>;
   createPost: (body: string) => Promise<void>;
+  changeStatus: (postId: string, currentStatus: boolean, e: Event | BaseSyntheticEvent) => Promise<void>
   deletePost: (postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
-  likePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
-  dislikePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent) => Promise<void>;
+  likePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean) => Promise<void>;
+  dislikePost: (userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean) => Promise<void>;
 }
 
 interface Author {
   name: string;
   photo: string;
+}
+
+interface User extends Author{
+  id: string;
 }
 
 interface PostProps {
@@ -54,7 +59,21 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
     
   }
 
-  async function createComment(commentBody: string, postId: string){
+  async function changeStatus(postId: string, currentStatus: boolean, e: Event | BaseSyntheticEvent){
+
+    e.stopPropagation()
+
+    await updateDoc(doc(db, "Posts", postId), {
+      end: !currentStatus
+    })
+  }
+
+  async function createComment(commentBody: string, postId: string, currentStatus: boolean){
+
+    if(currentStatus){
+      toast.error("post já encerrado")
+      return
+    }
     
     if(!user){
       toast.error("Se registre para fazer um comentário")
@@ -143,9 +162,14 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
 
   }
 
-  async function likePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent){
+  async function likePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean){
 
     e.stopPropagation()
+
+    if(currentStatus){
+      toast.error("post já encerrado")
+      return
+    }
 
     if(!userId){
       toast.error("Se registre para dar up nesse post")
@@ -167,9 +191,14 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
 
   }
 
-  async function dislikePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent){
+  async function dislikePost(userId: string | undefined, postId: string, e: Event | BaseSyntheticEvent, currentStatus: boolean){
 
     e.stopPropagation()
+
+    if(currentStatus){
+      toast.error("post já encerrado")
+      return
+    }
 
     if(!userId){
       toast.error("Se registre para dar down nesse post")
@@ -188,12 +217,10 @@ export default function FirestoreContextProvider({children}: FirestoreContextPro
         dislikes: arrayUnion(userId)
       }).catch(e => toast.error(e.message))
     }
-
-
   }
 
   return (
-    <FirestoreContext.Provider value={{ createPost, findPostById, createComment, deletePost, likePost, dislikePost }} >
+    <FirestoreContext.Provider value={{ changeStatus, createPost, findPostById, createComment, deletePost, likePost, dislikePost }} >
       {children}
     </FirestoreContext.Provider>
   )
