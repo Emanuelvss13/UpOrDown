@@ -47,8 +47,8 @@
     padding: 1rem;
     min-width: 250px;
 
-    .LoadingContainer{
-      
+    @media screen and (max-width: 550px) {
+      width: 100%;
     }
 
   }

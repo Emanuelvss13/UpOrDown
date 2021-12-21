@@ -25,7 +25,6 @@
 
     @media screen and (max-width: 650px){
       border-right: 0;
-
       width: 100%;
     }
   }
@@ -42,6 +41,7 @@
     @media screen and (max-width: 650px){
       width: 100%;
       height: auto;
+      min-height: 55vh;
       padding: 1rem;
       gap: 2rem;
     }
