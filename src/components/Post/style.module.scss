@@ -102,7 +102,7 @@
       width: 10rem;
 
       svg {
-        fill: var(--logo-blue);
+        fill: var(--dark-blue);
         transition: 0.2s;
         width: 2rem;
         cursor: pointer;
@@ -179,11 +179,11 @@
       height: 2.5rem;
       cursor: pointer;
       transition: 0.2s;
-      fill: var(--logo-blue);
+      fill: var(--dark-blue);
 
       &.up path {
         transition: 0.2s;
-        fill: var(--logo-blue);
+        fill: var(--dark-blue);
       }
 
       &.upSelected path {
@@ -196,7 +196,7 @@
 
       &.down path {
         transition: 0.2s;
-        fill: var(--logo-blue);
+        fill: var(--dark-blue);
       }
 
       &.up:hover path {

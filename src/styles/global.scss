@@ -1,7 +1,7 @@
 :root {
   --primary: #ffffff;
   --secundary: #e63946;
-  --logo-blue: #1c3144;
+  --dark-blue: #1c3144;
   --white: #fbfbff;
   --light-gray: #e5e5e5;
   --green: #06d6a0;
@@ -23,7 +23,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--logo-blue);
+    background-color: var(--dark-blue);
   }
 }
 
