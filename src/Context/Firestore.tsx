@@ -19,10 +19,6 @@ interface Author {
   photo: string;
 }
 
-interface User extends Author{
-  id: string;
-}
-
 interface PostProps {
   author: Author;
   body: string;
