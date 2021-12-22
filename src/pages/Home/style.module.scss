@@ -52,16 +52,19 @@
       height: auto;
       padding-bottom: 1rem;
       display: flex;
+      width: 100%;
       align-items: center;
       justify-content: space-evenly;
+      flex-wrap: wrap;
 
       p{
         padding: 0.5rem 1rem;
         width: fit-content;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         border-radius: 1.5rem;
         transition: 0.2s;
         cursor: pointer;
+        text-align: center;
 
         &.NewsTopics {
           color: var(--dark-blue);
@@ -74,6 +77,19 @@
         &.NewsTopicsActive {
           color: var(--dark-blue);
           background-color: #94c2e9;
+        }
+
+        &.mostOldest {
+          color: #B3A394;
+
+          &:hover {
+            background-color: #fae5db;
+          }
+        }
+
+        &.mostOldestActive {
+          color: #B3A394;
+          background-color: #fae5db;
         }
 
         &.mostLiked {

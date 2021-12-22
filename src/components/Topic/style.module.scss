@@ -51,6 +51,11 @@
     border-bottom: 1px solid var(--light-gray);
     padding-bottom: 0.5rem;
 
+    @media screen and (max-width: 400px) {
+      justify-content: center;
+      gap: 1rem;
+    }
+
     .user {
       display: flex;
       align-items: center;
@@ -113,7 +118,7 @@
         }
 
         &.change:hover {
-          fill: #efd033;
+          fill: #FAC05E;
           transition: 0.2s;
         }
       }

@@ -69,7 +69,9 @@ export default function Home() {
             )
             .reverse();
           break;
-        default:
+        case(3):
+          topicsRaw
+            .reverse();
           break;
       }
 
@@ -108,7 +110,15 @@ export default function Home() {
             }
             onClick={() => setPostQuery(0)}
           >
-            Novos
+            Mais novos
+          </p>
+          <p
+            className={
+              postQuery === 3 ? style.mostOldestActive : style.mostOldest
+            }
+            onClick={() => setPostQuery(3)}
+          >
+           Mais antigos
           </p>
           <p
             className={
