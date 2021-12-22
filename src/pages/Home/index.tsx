@@ -27,7 +27,7 @@ interface TopicProps {
   comentarios: CommentsProps[];
 }
 
-interface Topic {
+interface TopicData {
   data: TopicProps;
   id: string;
 }
@@ -35,7 +35,7 @@ interface Topic {
 export default function Home() {
   const [postBody, setPostBody] = useState<string>();
 
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<TopicData[]>([]);
 
   const { createTopic } = useContext(FirestoreContext);
 
@@ -48,7 +48,7 @@ export default function Home() {
       const topicsRaw = querySnapshot.docs.map((doc) => ({
         data: doc.data(),
         id: doc.id,
-      })) as Topic[];
+      })) as TopicData[];
 
       setTopics(topicsRaw);
     });
@@ -79,7 +79,7 @@ export default function Home() {
 
       <div className={style.PostContentContainer}>
         {topics.length > 0 ? (
-          topics.map((topic: Topic) => (
+          topics.map((topic: TopicData) => (
             <Topic topic={topic} key={topic.id} />
           ))
         ) : (

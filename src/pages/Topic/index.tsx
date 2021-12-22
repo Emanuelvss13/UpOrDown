@@ -19,7 +19,7 @@ interface ComentariosProps {
   content: string;
 }
 
-interface PostProps {
+interface TopicProps {
   author: Author;
   body: string;
   end: boolean;
@@ -29,19 +29,19 @@ interface PostProps {
   comentarios: ComentariosProps[];
 }
 
-interface PostType {
-  data: PostProps;
+interface TopicType {
+  data: TopicProps;
   id: string;
 }
 
-export default function Post() {
+export default function TopicPage() {
   const { createComment } = useContext(FirestoreContext);
 
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const [post, setPost] = useState<PostType>();
+  const [topic, setTopic] = useState<TopicType>();
 
   const [commentBody, setCommentBody] = useState("");
 
@@ -58,9 +58,9 @@ export default function Post() {
           navigate("/");
         }
 
-        const data = doc.data() as PostProps;
+        const data = doc.data() as TopicProps;
 
-        setPost({ data: data, id: id });
+        setTopic({ data: data, id: id });
       });
 
       return () => {
@@ -74,14 +74,14 @@ export default function Post() {
   return (
     <div className={style.Container}>
       <div className={style.PostContainer}>
-        {post && <Topic topic={post} scroll />}
+        {topic && <Topic topic={topic} scroll />}
       </div>
       <div className={style.CommentsContainer}>
         <div className={style.header}>
           <h3>Comentários</h3>
         </div>
         <div className={style.content}>
-          {post?.data.comentarios.reverse().map((comment) => (
+          {topic?.data.comentarios.reverse().map((comment) => (
             <div className={style.CommentContainer}>
               <div className={style.authorPhoto}>
                 <img
@@ -112,7 +112,7 @@ export default function Post() {
           <div
             className={style.inputButton}
             onClick={() => {
-              createComment(commentBody, post!.id, post!.data.end);
+              createComment(commentBody, topic!.id, topic!.data.end);
               setCommentBody("");
             }}
           >

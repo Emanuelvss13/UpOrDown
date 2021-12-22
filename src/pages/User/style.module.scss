@@ -59,26 +59,26 @@
           color: var(--dark-blue);
 
           &:hover {
-            background-color: #587d9c;
+            background-color: #94c2e9;
           }
         }
 
         &.myTopicsActive {
           color: var(--dark-blue);
-          background-color: #587d9c;
+          background-color: #94c2e9;
         }
 
         &.myLikes {
           color: var(--green);
 
           &:hover {
-            background-color: #7dffdc;
+            background-color: #c3f6e9;
           }
         }
 
         &.myLikesActive {
           color: var(--green);
-          background-color: #7dffdc;
+          background-color: #c3f6e9;
         }
 
         &.myDislikes {

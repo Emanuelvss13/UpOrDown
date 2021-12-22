@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import AuthContextProvider from "./Context/Auth";
 import { Toaster } from "react-hot-toast";
 import FirestoreContextProvider from "./Context/Firestore";
-import Post from "./pages/Topic";
+import TopicPage from "./pages/Topic";
 import User from "./pages/User";
 import NotFound from "./pages/Not Found";
 
@@ -18,7 +18,7 @@ export default function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/topic/:id" element={<Post />} />
+            <Route path="/topic/:id" element={<TopicPage />} />
             <Route path="/user/:id" element={<User />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

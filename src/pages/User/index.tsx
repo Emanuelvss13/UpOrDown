@@ -112,13 +112,13 @@ export default function User() {
               }
               onClick={() => setPostQuery(0)}
             >
-              Meus Tópicos
+              Tópicos
             </p>
             <p
               className={postQuery === 1 ? style.myLikesActive : style.myLikes}
               onClick={() => setPostQuery(1)}
             >
-              Meus Up&rsquo;s
+              Up&rsquo;s
             </p>
             <p
               className={
@@ -126,7 +126,7 @@ export default function User() {
               }
               onClick={() => setPostQuery(2)}
             >
-              Meus Down&rsquo;s
+              Down&rsquo;s
             </p>
 
             <span>
