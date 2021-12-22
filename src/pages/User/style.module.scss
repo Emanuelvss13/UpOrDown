@@ -30,9 +30,10 @@
     animation: fadeIn 0.3s;
 
     @media screen and (max-width: 600px) {
-      width: 80%;
+      width: 100%;
       border: 0;
       border-bottom: 0.1rem solid var(--light-gray);
+      min-width: 300px;
     }
 
     .userInfo {
@@ -110,6 +111,14 @@
     height: calc(100vh - 16vh);
     overflow-x: scroll;
 
+    @media screen and (max-width: 600px) {
+      width: 100%;
+      border: 0;
+      padding: 0.25rem;
+      border-bottom: 0.1rem solid var(--light-gray);
+      min-width: 300px;
+    }
+
     .userPageActions {
       width: 100%;
       display: flex;
@@ -119,6 +128,12 @@
       border-bottom: 0.1rem solid var(--light-gray);
       margin-bottom: 1rem;
       animation: fadeIn 0.3s;
+
+      @media screen and (max-width: 600px){
+        justify-content: center;
+        flex-wrap: wrap;
+        min-width: 300px;
+      }
 
       p {
         padding: 0.5rem 0.75rem;
