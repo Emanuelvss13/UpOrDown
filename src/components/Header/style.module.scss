@@ -47,7 +47,7 @@
   }
 
   .LoggedUser {
-    width: 20rem;
+    width: 25rem;
     padding: 0.5rem;
     display: flex;
     align-items: center;
@@ -62,6 +62,7 @@
     p {
       color: var(--primary);
       cursor: pointer;
+      text-align: center;
 
       &:hover {
         text-decoration: underline;

@@ -103,7 +103,7 @@ export default function User() {
       {user && (
         <div className={style.UserContainer}>
           <div className={style.userInfo}>
-            <img src={user.photo} alt="" />
+            <img src={user.photo} alt="foto do usuário" />
             <p className={style.userName}>{user.name}</p>
 
             <p
