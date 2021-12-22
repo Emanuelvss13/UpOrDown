@@ -94,25 +94,58 @@
         }
       }
 
-      .CommentText {
+      .commentContent{
         display: flex;
-        gap: 0.3rem;
-        height: inherit;
-        align-items: center;
-        flex-wrap: wrap;
+        flex-direction: column;
+        width: 100%;
+        
+        .CommentText {
+          padding-top: 0.2rem;
+          align-self: flex-start;
+          display: flex;
+          gap: 0.3rem;
+          height: inherit;
+          align-items: center;
+          flex-wrap: wrap;
+    
+          
+        }
+        .commentAction{
+          width: auto;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          align-self: flex-start;
+          width: 100%;
 
-        p {
-          font-weight: 800;
-
-          &.author {
-            cursor: pointer;
-
-            &:hover {
-              text-decoration: underline;
+          p {
+            font-weight: 800;
+    
+            &.author {
+              cursor: pointer;
+    
+              &:hover {
+                text-decoration: underline;
+              }
             }
           }
+          
+          svg {
+            fill: var(--dark-blue);
+            transition: 0.2s;
+            width: 2rem;
+            cursor: pointer;
+    
+            &.trash:hover {
+              transition: 0.2s;
+              fill: var(--secundary);
+            }
+          }
+  
         }
       }
+
     }
 
     .InputContainer {

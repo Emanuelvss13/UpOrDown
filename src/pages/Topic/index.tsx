@@ -6,6 +6,8 @@ import style from "./style.module.scss";
 import send from "../../Assets/send.png";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../Config/firebase";
+import { ReactComponent as Trash } from "../../Assets/trash.svg";
+import { AuthContext } from "../../Context/Auth";
 
 interface Author {
   id: string;
@@ -35,7 +37,8 @@ interface TopicType {
 }
 
 export default function TopicPage() {
-  const { createComment } = useContext(FirestoreContext);
+  const { createComment, deleteComment } = useContext(FirestoreContext);
+  const { user } = useContext(AuthContext);
 
   const { id } = useParams();
 
@@ -60,8 +63,8 @@ export default function TopicPage() {
 
         const data = doc.data() as TopicProps;
 
-        data.comentarios.reverse()
-        
+        data.comentarios.reverse();
+
         setTopic({ data: data, id: id });
       });
 
@@ -84,21 +87,35 @@ export default function TopicPage() {
         </div>
         <div className={style.content}>
           {topic?.data.comentarios.sort().map((comment, index) => (
-            <div className={style.CommentContainer} key={index} >
+            <div className={style.CommentContainer} key={index}>
               <div className={style.authorPhoto}>
                 <img
                   src={comment.author.photo}
                   alt="foto de um usuário que fez um comentário"
                 />
               </div>
-              <div className={style.CommentText}>
-                <p
-                  className={style.author}
-                  onClick={(e) => toUserAccount(e, comment.author.id)}
-                >
-                  {comment.author.name}
-                </p>
-                <span>{comment.content}</span>
+              <div className={style.commentContent}>
+                <div className={style.commentAction}>
+                  <p
+                    className={style.author}
+                    onClick={(e) => toUserAccount(e, comment.author.id)}
+                  >
+                    {comment.author.name}
+                  </p>
+
+                  {user?.id === topic.data.author.id ? (
+                    <Trash
+                      className={style.trash}
+                      onClick={() => deleteComment(id!, comment)}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <div className={style.CommentText}>
+                  <span>{comment.content}</span>
+                </div>
               </div>
             </div>
           ))}

@@ -26,6 +26,7 @@ interface FirestoreConxtextProps {
     currentStatus: boolean
   ) => Promise<void>;
   createTopic: (body: string) => Promise<void>;
+  deleteComment: (postId: string, comment: ComentariosProps) => Promise<void>;
   changeStatus: (
     topicId: string,
     currentStatus: boolean,
@@ -68,6 +69,18 @@ interface Post {
   id: string;
 }
 
+interface Author {
+  id: string;
+  name: string;
+  photo: string;
+}
+
+interface ComentariosProps {
+  author: Author;
+  photo: string;
+  content: string;
+}
+
 interface FirestoreContextProviderProps {
   children: ReactNode;
 }
@@ -87,6 +100,16 @@ export default function FirestoreContextProvider({
     const post: Post = { id: postRaw.id, data: postRaw.data() } as Post;
 
     return post;
+  }
+
+  async function deleteComment(postId: string, comment: ComentariosProps) {
+    const topicRef = doc(db, "Topics", postId);
+
+    await updateDoc(topicRef, {
+      comentarios: arrayRemove(comment),
+    })
+      .then(() => toast.success("Comentário deletado"))
+      .catch((e) => toast.error(e.message));
   }
 
   async function changeStatus(
@@ -256,6 +279,7 @@ export default function FirestoreContextProvider({
   return (
     <FirestoreContext.Provider
       value={{
+        deleteComment,
         changeStatus,
         createTopic,
         findTopicById,
