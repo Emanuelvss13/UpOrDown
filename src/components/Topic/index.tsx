@@ -76,6 +76,10 @@ function Topic({ topic, scroll }: TopicContentProps) {
               {new Date(topic.data.timestamp).toLocaleDateString("pt-BR", {
                 timeZone: "UTC",
               })}
+              {" às "}
+              {new Date(topic.data.timestamp).getHours()}:
+              {new Date(topic.data.timestamp).getMinutes() < 10 ? "0" : "" }
+              {new Date(topic.data.timestamp).getMinutes()}
             </span>
           </div>
         </div>

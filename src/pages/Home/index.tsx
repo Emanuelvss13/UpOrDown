@@ -39,6 +39,8 @@ export default function Home() {
 
   const { createTopic } = useContext(FirestoreContext);
 
+  const [postQuery, setPostQuery] = useState(0);
+
   useEffect(() => {
     const postRef = collection(db, "Topics");
 
@@ -50,13 +52,34 @@ export default function Home() {
         id: doc.id,
       })) as TopicData[];
 
+      switch (postQuery) {
+        case 1:
+          topicsRaw
+            .sort(
+              (a: TopicData, b: TopicData) =>
+                a.data.likes.length - b.data.likes.length
+            )
+            .reverse();
+          break;
+        case 2:
+          topicsRaw
+            .sort(
+              (a: TopicData, b: TopicData) =>
+                a.data.dislikes.length - b.data.dislikes.length
+            )
+            .reverse();
+          break;
+        default:
+          break;
+      }
+
       setTopics(topicsRaw);
     });
 
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [postQuery]);
 
   return (
     <div className={style.Container}>
@@ -78,6 +101,32 @@ export default function Home() {
       </div>
 
       <div className={style.PostContentContainer}>
+        <div className={style.query}>
+          <p
+            className={
+              postQuery === 0 ? style.NewsTopicsActive : style.NewsTopics
+            }
+            onClick={() => setPostQuery(0)}
+          >
+            Novos
+          </p>
+          <p
+            className={
+              postQuery === 1 ? style.mostLikedActive : style.mostLiked
+            }
+            onClick={() => setPostQuery(1)}
+          >
+            Mais up&rsquo;s
+          </p>
+          <p
+            className={
+              postQuery === 2 ? style.mostDislikedActive : style.mostDisliked
+            }
+            onClick={() => setPostQuery(2)}
+          >
+            Mais down&rsquo;s
+          </p>
+        </div>
         {topics.length > 0 ? (
           topics.map((topic: TopicData) => (
             <Topic topic={topic} key={topic.id} />
