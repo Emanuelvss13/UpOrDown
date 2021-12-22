@@ -60,6 +60,8 @@ export default function TopicPage() {
 
         const data = doc.data() as TopicProps;
 
+        data.comentarios.reverse()
+        
         setTopic({ data: data, id: id });
       });
 
@@ -81,8 +83,8 @@ export default function TopicPage() {
           <h3>Comentários</h3>
         </div>
         <div className={style.content}>
-          {topic?.data.comentarios.reverse().map((comment) => (
-            <div className={style.CommentContainer}>
+          {topic?.data.comentarios.sort().map((comment, index) => (
+            <div className={style.CommentContainer} key={index} >
               <div className={style.authorPhoto}>
                 <img
                   src={comment.author.photo}
