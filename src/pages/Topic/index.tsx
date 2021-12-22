@@ -38,6 +38,7 @@ interface TopicType {
 
 export default function TopicPage() {
   const { createComment, deleteComment } = useContext(FirestoreContext);
+
   const { user } = useContext(AuthContext);
 
   const { id } = useParams();
@@ -103,7 +104,7 @@ export default function TopicPage() {
                     {comment.author.name}
                   </p>
 
-                  {user?.id === topic.data.author.id ? (
+                  {user?.id === comment.author.id ? (
                     <Trash
                       className={style.trash}
                       onClick={() => deleteComment(id!, comment)}
