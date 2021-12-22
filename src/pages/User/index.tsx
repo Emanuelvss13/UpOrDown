@@ -53,6 +53,7 @@ export default function User() {
   const [topics, setTopics] = useState<Post[]>();
   const [postQuery, setPostQuery] = useState(0);
   const [noPost, setNoPost] = useState(false);
+  const [filter, setFilter] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -89,14 +90,29 @@ export default function User() {
           data: doc.data(),
           id: doc.id,
         })) as Post[];
-        setTopics(topicsRaw);
+
+        let topics;
+
+        switch (filter) {
+          case 1:
+            topics = topicsRaw.filter((post) => post.data.end === false);
+            break;
+          case 2:
+            topics = topicsRaw.filter((post) => post.data.end === true);
+            break;
+          default:
+            topics = topicsRaw;
+            break;
+        }
+
+        setTopics(topics);
       });
 
       return () => {
         unsubscribe();
       };
     }
-  }, [id, navigate, postQuery]);
+  }, [filter, id, navigate, postQuery]);
 
   return (
     <div className={style.Container}>
@@ -143,7 +159,38 @@ export default function User() {
             <p>Nenhum Tópico Encontrado</p>
           </div>
         ) : (
-          topics?.map((topic) => <PostContent key={topic.id} topic={topic} />)
+          <>
+            <div className={style.userPageActions}>
+              <p
+                className={filter === 1 ? style.activeSelected : style.active}
+                onClick={() => setFilter(1)}
+              >
+                Ativos
+              </p>
+              <p
+                className={filter === 0 ? style.allSelected : style.all}
+                onClick={() => setFilter(0)}
+              >
+                Todos
+              </p>
+              <p
+                className={filter === 2 ? style.closedSelected : style.closed}
+                onClick={() => setFilter(2)}
+              >
+                Encerrados
+              </p>
+            </div>
+
+            {topics && topics.length > 0 ? (
+              topics?.map((topic) => (
+                <PostContent key={topic.id} topic={topic} />
+              ))
+            ) : (
+              <div className={style.noContent} style={{height: "50%"}} >
+                <p>Nenhum Tópico Encontrado</p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -110,23 +110,82 @@
     height: calc(100vh - 16vh);
     overflow-x: scroll;
 
-    @media screen and (max-width: 600px) {
+    .userPageActions {
       width: 100%;
-    }
-
-    .noContent {
-      width: 100%;
-      height: 100%;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
+      padding: 0rem 1rem 1rem 1rem;
+      border-bottom: 0.1rem solid var(--light-gray);
+      margin-bottom: 1rem;
       animation: fadeIn 0.3s;
 
       p {
-        text-align: center;
-        font-family: "Corinthia", cursive;
-        font-size: 5rem;
+        padding: 0.5rem 0.75rem;
+        width: fit-content;
+        font-size: 1.25rem;
+        border-radius: 1.5rem;
+        transition: 0.2s background-color;
+        cursor: pointer;
+
+        &.active {
+          color: var(--green);
+
+          &:hover {
+            background-color: #c3f6e9;
+          }
+        }
+
+        &.activeSelected {
+          color: var(--green);
+          background-color: #c3f6e9;
+        }
+
+        &.all {
+          color: var(--dark-blue);
+
+          &:hover {
+            background-color: #94c2e9;
+          }
+        }
+
+        &.allSelected {
+          color: var(--dark-blue);
+          background-color: #94c2e9;
+        }
+
+        &.closed {
+          color: var(--secundary);
+
+          &:hover {
+            background-color: #ffa6ad;
+          }
+        }
+
+        &.closedSelected {
+          color: var(--secundary);
+          background-color: #ffa6ad;
+        }
       }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+
+  .noContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s;
+
+    p {
+      text-align: center;
+      font-family: "Corinthia", cursive;
+      font-size: 5rem;
     }
   }
 }
