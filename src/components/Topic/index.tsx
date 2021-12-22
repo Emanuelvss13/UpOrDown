@@ -17,7 +17,7 @@ interface CommentsProps {
 }
 
 interface TopicContentProps {
-  topic: Topic;
+  topic: TopicData;
   scroll?: boolean;
 }
 
@@ -37,7 +37,7 @@ interface TopicProps {
   comentarios: CommentsProps[];
 }
 
-interface Topic {
+interface TopicData {
   data: TopicProps;
   id: string;
 }
