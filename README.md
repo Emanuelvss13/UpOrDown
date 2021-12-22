@@ -12,6 +12,15 @@
 ## Sobre o Up or Down
 O Up or Down é um mini-projeto de criação e votação de tópicos
 
+## Features
+
+- Votar no tópico(Up ou Down).
+- Escrever um comentário no tópico.
+- Perfil do usuário mostrando seus tópicos, ups´s e down´s(para acessar essa feature click encima do nome do usuário).
+- Feed principal com todos os tópicos.
+- Pagina de detalhes do tópico.
+- O autor do tópico poderá exclui-lo ou trocar seu status(ativo ou encerrado).
+
 ## Tecnologias
 
 Tecnologias e ferramentas utilizadas no desenvolvimento do projeto:
